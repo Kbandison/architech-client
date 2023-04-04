@@ -36,27 +36,27 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 - Displays the list of products
 
-  - Ability to be redirected to the products' Page
+- Ability to be redirected to the products' Page
 
-  - Each item will have the following fields:
+- Each item will have the following fields:
 
-    - Image
+  - Image
 
-    - Title
+  - Title
 
-    - Price (regular or sale price)
+  - Price (regular or sale price)
 
-    - Category
+  - Category
 
-    - Model number
+  - Model number
 
-    - SKU
+  - SKU
 
-    - Number of reviews (and stars)
+  - Number of reviews (and stars)
 
-    - Add to cart
+  - Add to cart
 
-    - Add to wishlist/favorites
+  - Add to wishlist/favorites
 
 - The ability to sort through the products, filter by category, or search for a specific product
 
