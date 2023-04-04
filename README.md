@@ -4,7 +4,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 ## Features
 
-#### User Registration/Login/Logout functionality:
+### User Registration/Login/Logout functionality:
 
 - User Registers with important information needed for purchase
 
@@ -20,7 +20,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 ## Front-End Functionality:
 
-#### Nav-bar:
+### Nav-bar:
 
 - Dashboard
 
@@ -32,7 +32,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 - wishlist
 
-#### Products Page:
+### Products Page:
 
 - Displays the list of products
 
@@ -60,7 +60,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 - The ability to sort through the products, filter by category, or search for a specific product
 
-#### Cart Page:
+### Cart Page:
 
 - User will see all of their products that they added to cart
 
@@ -82,7 +82,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 - Will be able to remove all products from their cart
 
-#### User Account page:
+### User Account page:
 
 - Can see all of their information, including their order history
 
@@ -92,7 +92,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 ## Back-End Functionality:
 
-#### GET ROUTES
+### GET ROUTES
 
 - GET all products
 
@@ -102,7 +102,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 - GET order history
 
-#### POST ROUTES
+### POST ROUTES
 
 - POST new user
 
@@ -110,7 +110,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 -POST add to cart
 
-#### PUT ROUTES
+### PUT ROUTES
 
 - PUT update user account details
 
@@ -118,7 +118,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 - PUT update cart details
 
-#### DELETE ROUTES
+### DELETE ROUTES
 
 - DELETE user
 
