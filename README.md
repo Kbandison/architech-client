@@ -1,46 +1,129 @@
-# Getting Started with Create React App and Redux
+# E-commerce Fullstack Final Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech!
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+#### User Registration/Login/Logout functionality:
 
-### `npm start`
+- User Registers with important information needed for purchase
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- User's password will be protected using hashing with salt
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- When logging in, the user will be given a token, giving them access to the site for 1 hour
 
-### `npm test`
+- They will be able to see all of our exclusive products
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- They can add products to cart or add to wishlist/favorites
 
-### `npm run build`
+- They can also view their order history
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Front-End Functionality:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Nav-bar:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Dashboard
 
-### `npm run eject`
+- Sign In / Out
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Products
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- User Account
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- wishlist
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### Products Page:
 
-## Learn More
+- Displays the list of products
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  - Ability to be redirected to the products' Page
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  - Each item will have the following fields:
+
+    - Image
+
+    - Title
+
+    - Price (regular or sale price)
+
+    - Category
+
+    - Model number
+
+    - SKU
+
+    - Number of reviews (and stars)
+
+    - Add to cart
+
+    - Add to wishlist/favorites
+
+- The ability to sort through the products, filter by category, or search for a specific product
+
+#### Cart Page:
+
+- User will see all of their products that they added to cart
+
+- Will be able to either change the quantity or remove products
+
+- Can add cart items to wishlist
+
+- Cart items will display:
+
+  - Name
+
+  - quantity
+
+  - Price
+
+  - Remove from cart button
+
+- Will see the total amount of all products
+
+- Will be able to remove all products from their cart
+
+#### User Account page:
+
+- Can see all of their information, including their order history
+
+- Can update their information, or delete their Account
+
+- Can show their wishlist
+
+### Back-End Functionality:
+
+#### GET ROUTES
+
+- GET all products
+
+- GET wishlist
+
+- GET cart
+
+- GET order history
+
+#### POST ROUTES
+
+- POST new user
+
+- POST new product
+
+-POST add to cart
+
+#### PUT ROUTES
+
+- PUT update user account details
+
+- PUT update product details
+
+- PUT update cart details
+
+#### DELETE ROUTES
+
+- DELETE user
+
+- DELETE Products
+
+- DELETE all products
+
+- DELETE all users
