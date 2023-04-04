@@ -18,7 +18,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 - They can also view their order history
 
-### Front-End Functionality:
+## Front-End Functionality:
 
 #### Nav-bar:
 
@@ -90,7 +90,7 @@ Welcome to Archi-Tech! Our e-commerce website features a variety of popular tech
 
 - Can show their wishlist
 
-### Back-End Functionality:
+## Back-End Functionality:
 
 #### GET ROUTES
 
