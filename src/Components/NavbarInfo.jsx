@@ -26,10 +26,14 @@ const NavbarInfo = () => {
           alt=""
           className="h-12 w-14 "
         /> */}
-        <h1>ARCHI-TECH.</h1>
+        <h1>
+          <Link to="/" className="link">
+            ARCHI-TECH.
+          </Link>
+        </h1>
         <ul className="md:flex py-4 gap-6 items-center hidden">
           <li className="link">
-            <Link to="/dashboard">Home</Link>
+            <Link to="/">Home</Link>
           </li>
           <li className="link">
             <Link to="/products">Products</Link>
@@ -41,7 +45,7 @@ const NavbarInfo = () => {
             <Link to="/cart">Cart</Link>
           </li>
           <li className="link">
-            <Link to="/my-account">My Account</Link>
+            <Link to="/account">My Account</Link>
           </li>
           <li className="text-xl link hover:bg-[#DE3C4B] hover:text-[#E4FDE1] py-1 px-6 rounded-lg">
             {/* <button className="button">Sign In</button> */}
