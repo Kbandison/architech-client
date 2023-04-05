@@ -20,7 +20,7 @@ const NavbarInfo = () => {
 
   return (
     <>
-      <nav className="flex justify-between items-center text-1xl font-bold text-[#5500a3] p-6">
+      <nav className="flex justify-between items-center text-1xl font-bold p-6">
         {/* <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png"
           alt=""
@@ -43,8 +43,9 @@ const NavbarInfo = () => {
           <li className="link">
             <Link to="/my-account">My Account</Link>
           </li>
-          <li>
-            <button className="button">Sign In</button>
+          <li className="text-xl link hover:bg-[#DE3C4B] hover:text-[#E4FDE1] py-1 px-6 rounded-lg">
+            {/* <button className="button">Sign In</button> */}
+            <Link to="/sign-in">Sign In</Link>
           </li>
         </ul>
         <div onClick={handleNav} className="block md:hidden">

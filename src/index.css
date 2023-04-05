@@ -29,15 +29,16 @@
   }
 
   html {
+    background-color: #1c2321;
     font-family: Raleway, sans-serif;
-    color: #5500a3;
+    color: #a4bef3;
   }
 
   .button {
-    @apply rounded-lg  px-8 py-1.5 bg-[#FFCC00] hover:bg-[#5500a3] hover:text-[#ffcc00] ease-in-out duration-300;
+    @apply rounded-lg  px-8 py-1.5 hover:bg-[#5500a3] hover:text-[#ffcc00] ease-in-out duration-300;
   }
 
   .link {
-    @apply hover:text-[#ffcc00] ease-in-out duration-300;
+    @apply hover:text-[#E4FDE1] ease-in-out duration-300;
   }
 }

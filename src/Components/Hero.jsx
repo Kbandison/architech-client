@@ -11,7 +11,7 @@ const Hero = () => {
         <div>
           <p className="md:text-5xl sm:4xl text-xl font-bold pt-2">
             Affordable Prices for{" "}
-            <span>
+            <span className="text-[#E4FDE1] underline decoration-solid underline decoration-[#DE3C4B]">
               <Typed
                 strings={["TV's", "Consoles.", "Cameras."]}
                 typedSpeed={180}
@@ -25,7 +25,7 @@ const Hero = () => {
         <p className="md:text-2xl text-xl font-bold pt-12">
           An all-out store for all your technological needs!
         </p>
-        <button className="mt-8 mx-auto py-4 px-10 rounded-lg border font-bold md:text-2xl sm:text-xl text-md">
+        <button className="mt-8 mx-auto py-4 px-10 rounded-lg border font-bold md:text-2xl sm:text-xl text-md text-[#E4FDE1] border-[#DE3C4B]">
           VIEW ALL PRODUCTS
         </button>
       </div>
