@@ -12,6 +12,11 @@ import ProductList from "./Pages/ProductList";
 import WishlistPage from "./Pages/WishlistPage";
 import CartPage from "./Pages/CartPage";
 import AccountPage from "./Pages/AccountPage";
+import RegisterPage from "./Pages/RegisterPage";
+import LoginPage from "./Pages/LoginPage";
+import ProductPage from "./Pages/ProductPage";
+import AccountBar from "./Components/AccountBar";
+import OrderHistory from "./Pages/OrderHistory";
 
 function App() {
   const router = createBrowserRouter(
@@ -21,7 +26,13 @@ function App() {
         <Route path="/products" element={<ProductList />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/account" element={<AccountPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/products/:id" element={<ProductPage />} />
+        <Route element={<AccountBar />}>
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/account/orders" element={<OrderHistory />} />
+        </Route>
       </Route>
     )
   );

@@ -35,10 +35,29 @@
   }
 
   .button {
-    @apply rounded-lg  px-8 py-1.5 hover:bg-[#5500a3] hover:text-[#ffcc00] ease-in-out duration-300;
+    @apply rounded-lg  px-8 py-1.5 hover:bg-[#DE3C4B] hover:text-[#E4FDE1] ease-in-out duration-300;
   }
 
   .link {
     @apply hover:text-[#E4FDE1] ease-in-out duration-300;
+  }
+
+  .input {
+    @apply px-4 py-1.5 bg-[#1c2321] text-[#E4FDE1] border-[#a4bef3] ease-in-out duration-300 border-b placeholder-[#A4BEF3];
+  }
+
+  .input:focus {
+    @apply border-[#DE3C4B] ease-in-out duration-300 outline-none select-none;
+  }
+}
+
+@layer components {
+  .card {
+    background-color: theme("colors.white");
+    border-radius: theme("borderRadius.lg");
+    padding: theme("spacing.6");
+    box-shadow: theme("boxShadow.xl");
+    width: 20vw;
+    height: 30vh;
   }
 }

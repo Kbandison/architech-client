@@ -1,21 +1,26 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
-// import { HiShoppingCart, HiOutlineShoppingCart } from "react-icons/hi";
-// import { MdAccountCircle, MdOutlineAccountCircle } from "react-icons/md";
-// import { IoStorefrontSharp, IoStorefrontOutline } from "react-icons/io5";
-// import {
-//   AiOutlineHome,
-//   AiTwotoneHome,
-//   AiOutlineHeart,
-//   AiTwotoneHeart,
-// } from "react-icons/ai";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { BsArrowRightShort } from "react-icons/bs";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser, reset } from "../features/auth/authSlice";
 
 const NavbarInfo = () => {
   const [nav, setNav] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+
+  console.log(user);
 
   const handleNav = () => {
     setNav(!nav);
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    dispatch(reset());
+    navigate("/login");
   };
 
   return (
@@ -32,24 +37,37 @@ const NavbarInfo = () => {
           </Link>
         </h1>
         <ul className="md:flex py-4 gap-6 items-center hidden">
-          <li className="link">
+          <li className="link hover:-translate-y-2">
             <Link to="/">Home</Link>
           </li>
-          <li className="link">
+          <li className="link hover:-translate-y-2">
             <Link to="/products">Products</Link>
           </li>
-          <li className="link">
-            <Link to="/wishlist">Wishlist</Link>
+          <li className="link hover:-translate-y-2">
+            <Link to={user ? "/wishlist" : "/login"}>Wishlist</Link>
           </li>
-          <li className="link">
+          <li className="link hover:-translate-y-2">
             <Link to="/cart">Cart</Link>
           </li>
-          <li className="link">
-            <Link to="/account">My Account</Link>
+          <li className="link hover:-translate-y-2">
+            <Link to={user ? "/account" : "/login"}>My Account</Link>
           </li>
-          <li className="text-xl link hover:bg-[#DE3C4B] hover:text-[#E4FDE1] py-1 px-6 rounded-lg">
-            {/* <button className="button">Sign In</button> */}
-            <Link to="/sign-in">Sign In</Link>
+          {user.user.scope === "admin" && (
+            <li className="link hover:-translate-y-2">
+              <Link to="/users">Users</Link>
+            </li>
+          )}
+          <li className=" text-xl link hover:bg-[#DE3C4B] hover:text-[#E4FDE1] py-1 px-6 rounded-lg">
+            {user ? (
+              <Link to="/login">
+                <button onClick={handleLogout}>Sign Out</button>
+              </Link>
+            ) : (
+              <Link to="/login">
+                Sign In{" "}
+                <BsArrowRightShort className="inline text-3xl hover:translate-x-4 ease-in-out duration-300" />
+              </Link>
+            )}
           </li>
         </ul>
         <div onClick={handleNav} className="block md:hidden">
@@ -59,33 +77,68 @@ const NavbarInfo = () => {
             <AiOutlineMenu className="h-8 w-8" />
           )}
         </div>
+        {/******************* Sidebar ********************/}
         <div
           className={
             nav
-              ? "fixed left-0 top-0 w-[30%] h-full border-r border-r-gray-900 bg-[#5500a3] ease-in-out duration-500 md:hidden"
+              ? "fixed left-0 top-0 w-[40%] h-full border-r border-r-gray-900 bg-[#A4BEF3] ease-in-out duration-500 md:hidden"
               : "fixed left-[-100%]"
           }
         >
           <h1 className="text-white m-8">ARCHI-TECH.</h1>
 
           <ul className="p-4 uppercase ">
-            <li className="link p-4 text-white border-b border-[#ffcc00]">
-              <Link to="/dashboard">Home</Link>
+            <li
+              className="link p-4 text-[#1C2321] border-b border-[#1C2321]"
+              onClick={handleNav}
+            >
+              <Link to="/">Home</Link>
             </li>
-            <li className="link p-4 text-white border-b border-[#ffcc00]">
+            <li
+              className="link p-4 text-[#1C2321] border-b border-[#1C2321]"
+              onClick={handleNav}
+            >
               <Link to="/products">Products</Link>
             </li>
-            <li className="link p-4 text-white border-b border-[#ffcc00]">
+            <li
+              className="link p-4 text-[#1C2321] border-b border-[#1C2321]"
+              onClick={handleNav}
+            >
               <Link to="/wishlist">Wishlist</Link>
             </li>
-            <li className="link p-4 text-white border-b border-[#ffcc00]">
+            <li
+              className="link p-4 text-[#1C2321] border-b border-[#1C2321]"
+              onClick={handleNav}
+            >
               <Link to="/cart">Cart</Link>
             </li>
-            <li className="link p-4 text-white">
-              <Link to="/my-account">My Account</Link>
+            <li
+              className="link p-4 text-[#1C2321] border-b border-[#1C2321]"
+              onClick={handleNav}
+            >
+              <Link to={user ? "/account" : "/login"}>My Account</Link>
             </li>
-            <li>
-              <button className="button m-4">Sign In</button>
+            {user.user.scope === "admin" && (
+              <li className="link text-[#1C2321] p-4">
+                <Link to="/users">Users</Link>
+              </li>
+            )}
+            <li
+              className="text-xl hover:text-[#E4FDE1] text-[#DE3C4B] hover:bg-[#DE3C4B] button flex justify-center ease-in-out duration-300 py-0 mt-4"
+              onClick={handleNav}
+            >
+              {user ? (
+                <button onClick={handleLogout} className="m-4">
+                  Sign Out
+                </button>
+              ) : (
+                <Link to="/login">
+                  <button className="  m-4">
+                    Sign In{" "}
+                    <BsArrowRightShort className="inline text-3xl hover:translate-x-4 ease-in-out duration-300" />
+                  </button>
+                </Link>
+              )}
             </li>
           </ul>
         </div>
