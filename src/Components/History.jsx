@@ -24,6 +24,7 @@ const History = () => {
           //   <p>Order Total: ${order.orderTotal}</p>
           //   <p>Order Status: {order.orderStatus}</p>
           //   <p>Order Items: {order.orderItems}</p>
+          //   <p>Quantity: {order.quantity}</p>
           // </div>
         );
       })}

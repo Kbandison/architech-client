@@ -1,5 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,11 +7,11 @@ import { logoutUser, reset } from "../features/auth/authSlice";
 
 const NavbarInfo = () => {
   const [nav, setNav] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
 
-  console.log(user);
+  const { user } = useSelector((state) => state.auth);
 
   const handleNav = () => {
     setNav(!nav);
@@ -52,7 +52,7 @@ const NavbarInfo = () => {
           <li className="link hover:-translate-y-2">
             <Link to={user ? "/account" : "/login"}>My Account</Link>
           </li>
-          {user.user.scope === "admin" && (
+          {user && user.user.scope === "admin" && (
             <li className="link hover:-translate-y-2">
               <Link to="/users">Users</Link>
             </li>
@@ -118,7 +118,7 @@ const NavbarInfo = () => {
             >
               <Link to={user ? "/account" : "/login"}>My Account</Link>
             </li>
-            {user.user.scope === "admin" && (
+            {user && user.user.scope === "admin" && (
               <li className="link text-[#1C2321] p-4">
                 <Link to="/users">Users</Link>
               </li>

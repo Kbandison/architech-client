@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts, reset } from "../features/products/productSlice";
+import {
+  getProducts,
+  addWishList,
+  reset,
+} from "../features/products/productSlice";
 import Spinner from "./Spinner";
 
 const Products = () => {
@@ -12,6 +16,8 @@ const Products = () => {
   const { products, isLoading, isError, message } = useSelector(
     (state) => state.products
   );
+
+  console.log(user);
 
   // const [productList, setProductList] = useState([]);
 
@@ -27,6 +33,11 @@ const Products = () => {
       dispatch(reset());
     };
   }, [dispatch, isError, message]);
+
+  const handleAddToWishList = (product) => {
+    dispatch(addWishList(product));
+    navigate("/wishlist");
+  };
 
   if (isLoading) {
     return <Spinner />;
@@ -67,6 +78,16 @@ const Products = () => {
                       `Sale Price: $${product.salePrice}`}
                   </p>
                   {/* <p>{product.onSale && `Sale Price: $${product.salePrice}`}</p> */}
+                  <button
+                    onClick={() => {
+                      dispatch(addWishList(product.sku));
+                      navigate("/wishlist");
+                      console.log(message);
+                    }}
+                  >
+                    {" "}
+                    Add to Wishlist
+                  </button>
                   <Link to={`/products/${product.sku}`}>
                     <button className="button">View Product</button>
                   </Link>
