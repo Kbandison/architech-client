@@ -60,60 +60,6 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
-export const getWishList = createAsyncThunk(
-  "products/getWishList",
-  async (_, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await productService.getWishList(token);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-export const addWishList = createAsyncThunk(
-  "products/addWishList",
-  async (id, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await productService.addWishItem(id, token);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-export const removeWishList = createAsyncThunk(
-  "products/removeWishList",
-  async (id, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await productService.removeWishItem(id, token);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
 export const getCart = createAsyncThunk(
   "products/getCart",
   async (_, thunkAPI) => {
@@ -272,71 +218,6 @@ export const productSlice = createSlice({
 
       // REJECTED
       .addCase(deleteProduct.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      })
-
-      /************************GET WISHLIST BUILDERS*******************/
-
-      // PENDING
-      .addCase(getWishList.pending, (state) => {
-        state.isLoading = true;
-      })
-
-      // FULFILLED
-      .addCase(getWishList.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.products = action.payload;
-      })
-
-      // REJECTED
-      .addCase(getWishList.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      })
-
-      /************************ADD TO WISHLIST BUILDERS*******************/
-
-      // PENDING
-      .addCase(addWishList.pending, (state) => {
-        state.isLoading = true;
-      })
-
-      // FULFILLED
-      .addCase(addWishList.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.products.push(action.payload);
-      })
-
-      // REJECTED
-      .addCase(addWishList.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      })
-
-      /************************REMOVE FROM WISHLIST BUILDERS*******************/
-
-      // PENDING
-      .addCase(removeWishList.pending, (state) => {
-        state.isLoading = true;
-      })
-
-      // FULFILLED
-      .addCase(removeWishList.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.products = state.products.filter(
-          (product) => product._id !== action.payload.id
-        );
-      })
-
-      // REJECTED
-      .addCase(removeWishList.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

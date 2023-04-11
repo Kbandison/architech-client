@@ -22,46 +22,6 @@ const deleteProduct = async (id) => {
 
 /*****************USER ROUTES****************/
 
-// WISHLIST
-const getWhishlist = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.get(`${productData}/wishlist`, config);
-
-  return response.data;
-};
-
-const addWishItem = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.put(`${productData}/add-wishlist/${id}`, config);
-
-  return response.data;
-};
-
-const removeWishItem = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.put(
-    `${productData}/remove-wishlist/${id}`,
-    config
-  );
-
-  return response.data;
-};
-
 // CART
 const getCart = async (token) => {
   const config = {
@@ -140,9 +100,6 @@ const productService = {
   getProducts,
   getProduct,
   deleteProduct,
-  getWhishlist,
-  addWishItem,
-  removeWishItem,
   getCart,
   addCart,
   removeCart,
