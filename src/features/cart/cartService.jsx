@@ -8,7 +8,7 @@ const getCart = async (token) => {
     },
   };
 
-  const response = await axios.get(cartData, config);
+  const response = await axios.get(cartData, {}, config);
 
   return response.data;
 };
@@ -20,7 +20,7 @@ const addCart = async (id, token) => {
     },
   };
 
-  const response = await axios.post(`${cartData}/add-cart/${id}`, config);
+  const response = await axios.post(`${cartData}/add-cart/${id}`, {}, config);
 
   return response.data;
 };
@@ -32,7 +32,11 @@ const removeCart = async (id, token) => {
     },
   };
 
-  const response = await axios.delete(`${cartData}/remove-cart/${id}`, config);
+  const response = await axios.delete(
+    `${cartData}/remove-cart/${id}`,
+    {},
+    config
+  );
 
   return response.data;
 };
@@ -44,7 +48,7 @@ const clearCart = async (token) => {
     },
   };
 
-  const response = await axios.delete(`${cartData}/clear-cart`, config);
+  const response = await axios.delete(`${cartData}/clear-cart`, {}, config);
 
   return response.data;
 };

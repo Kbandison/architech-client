@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getProducts,
-  addWishList,
-  reset,
-} from "../features/products/productSlice";
+import { getProducts, reset } from "../features/products/productSlice";
+import { addToWishlist } from "../features/wishlist/wishSlice";
 import Spinner from "./Spinner";
 
 const Products = () => {
@@ -35,7 +32,7 @@ const Products = () => {
   }, [dispatch, isError, message]);
 
   const handleAddToWishList = (product) => {
-    dispatch(addWishList(product));
+    dispatch(addToWishlist(product));
     navigate("/wishlist");
   };
 
@@ -78,20 +75,22 @@ const Products = () => {
                       `Sale Price: $${product.salePrice}`}
                   </p>
                   {/* <p>{product.onSale && `Sale Price: $${product.salePrice}`}</p> */}
+                  {/* <Link to="/wishlist"> */}
                   <button
                     onClick={() => {
-                      dispatch(addWishList(product.sku));
-                      navigate("/wishlist");
-                      console.log(message);
+                      dispatch(addToWishlist(product.sku));
+                      dispatch(reset());
                     }}
+                    className="button"
                   >
                     {" "}
                     Add to Wishlist
                   </button>
+                  {/* </Link> */}
                   <Link to={`/products/${product.sku}`}>
                     <button className="button">View Product</button>
                   </Link>
-                  <Link to="/cart-success">
+                  <Link to="/cart">
                     <button className="button">Add to Cart</button>
                   </Link>
                 </div>

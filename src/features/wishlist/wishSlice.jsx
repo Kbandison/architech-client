@@ -14,7 +14,7 @@ export const getWishlist = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await wishService.getWishlist(token);
+      return await wishService.getWishes(token);
     } catch (error) {
       const message =
         (error.response &&
@@ -31,7 +31,7 @@ export const addToWishlist = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await wishService.addWishItem(id, token);
+      return wishService.addWishItem(id, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -117,7 +117,7 @@ export const wishSlice = createSlice({
       .addCase(addToWishlist.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.wishlist = action.payload;
+        state.wishlist.push(action.payload);
       })
 
       // REJECTED

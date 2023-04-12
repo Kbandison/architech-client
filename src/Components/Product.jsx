@@ -12,6 +12,7 @@ const Product = () => {
   const { products, isLoading, isError, message } = useSelector(
     (state) => state.products
   );
+  const { wishlist } = useSelector((state) => state.wishlist);
 
   const { id } = useParams();
 
