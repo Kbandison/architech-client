@@ -96,7 +96,7 @@ export const wishSlice = createSlice({
       .addCase(getWishlist.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.wishlist = action.payload;
+        state.wishlist = action.payload.wishlist;
       })
 
       // REJECTED

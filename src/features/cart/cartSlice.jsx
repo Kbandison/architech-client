@@ -9,18 +9,23 @@ const initialState = {
   message: "",
 };
 
-export const getCart = createAsyncThunk("cart/getCart", async (_, thunkAPI) => {
-  try {
-    const token = thunkAPI.getState().auth.user.token;
-    return await cartService.getCart(token);
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const getUserCart = createAsyncThunk(
+  "cart/getCart",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await cartService.getCart(token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
@@ -88,19 +93,19 @@ export const cartSlice = createSlice({
       /*****************************GET CART*****************************/
 
       // PENDING
-      .addCase(getCart.pending, (state) => {
+      .addCase(getUserCart.pending, (state) => {
         state.isLoading = true;
       })
 
       // FULFILLED
-      .addCase(getCart.fulfilled, (state, action) => {
+      .addCase(getUserCart.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.cart = action.payload;
+        state.cart = action.payload.cart;
       })
 
       // REJECTED
-      .addCase(getCart.rejected, (state, action) => {
+      .addCase(getUserCart.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -138,7 +143,9 @@ export const cartSlice = createSlice({
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.cart = state.cart.filter((item) => item._id !== action.payload);
+        state.cart = state.cart.filter(
+          (item) => item._id !== action.payload.cart
+        );
       })
 
       // REJECTED

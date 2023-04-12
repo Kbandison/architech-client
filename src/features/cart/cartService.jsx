@@ -8,7 +8,7 @@ const getCart = async (token) => {
     },
   };
 
-  const response = await axios.get(cartData, {}, config);
+  const response = await axios.get(cartData, config);
 
   return response.data;
 };
@@ -32,11 +32,7 @@ const removeCart = async (id, token) => {
     },
   };
 
-  const response = await axios.delete(
-    `${cartData}/remove-cart/${id}`,
-    {},
-    config
-  );
+  const response = await axios.delete(`${cartData}/remove-cart/${id}`, config);
 
   return response.data;
 };

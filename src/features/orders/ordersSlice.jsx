@@ -119,7 +119,7 @@ export const ordersSlice = createSlice({
       .addCase(getOrders.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.orders = action.payload;
+        state.orders = action.payload.orders;
       })
 
       // REJECTED

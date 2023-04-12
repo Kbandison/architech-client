@@ -8,7 +8,7 @@ const getWishes = async (token) => {
     },
   };
 
-  const response = await axios.get(wishData, {}, config);
+  const response = await axios.get(wishData, config);
 
   return response.data;
 };
@@ -20,7 +20,7 @@ const addWishItem = async (id, token) => {
     },
   };
 
-  const response = await axios.post(`${wishData}/add-wish/${id}`, {}, config);
+  const response = await axios.post(`${wishData}/add-wish/${id}`, config);
 
   return response.data;
 };

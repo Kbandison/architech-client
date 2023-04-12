@@ -17,6 +17,7 @@ import LoginPage from "./Pages/LoginPage";
 import ProductPage from "./Pages/ProductPage";
 import AccountBar from "./Components/AccountBar";
 import OrderHistory from "./Pages/OrderHistory";
+import OrdersPage from "./Pages/OrdersPage";
 
 function App() {
   const router = createBrowserRouter(
@@ -31,7 +32,8 @@ function App() {
         <Route path="/products/:id" element={<ProductPage />} />
         <Route element={<AccountBar />}>
           <Route path="/account" element={<AccountPage />} />
-          <Route path="/account/orders" element={<OrderHistory />} />
+          <Route path="/account/orders" element={<OrdersPage />} />
+          <Route path="/account/order-history" element={<OrderHistory />} />
         </Route>
       </Route>
     )

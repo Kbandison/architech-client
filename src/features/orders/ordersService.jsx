@@ -8,7 +8,7 @@ const getOrders = async (token) => {
     },
   };
 
-  const response = await axios.get(orderData, {}, config);
+  const response = await axios.get(orderData, config);
 
   return response.data;
 };

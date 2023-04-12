@@ -8,6 +8,9 @@ const AccountBar = () => {
           Account Info
         </Link>
         <Link to="/account/orders" className="button font-bold">
+          Orders
+        </Link>
+        <Link to="/account/order-history" className="button font-bold">
           Order History
         </Link>
       </div>

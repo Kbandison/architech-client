@@ -31,11 +31,6 @@ const Products = () => {
     };
   }, [dispatch, isError, message]);
 
-  const handleAddToWishList = (product) => {
-    dispatch(addToWishlist(product));
-    navigate("/wishlist");
-  };
-
   if (isLoading) {
     return <Spinner />;
   }
@@ -75,18 +70,18 @@ const Products = () => {
                       `Sale Price: $${product.salePrice}`}
                   </p>
                   {/* <p>{product.onSale && `Sale Price: $${product.salePrice}`}</p> */}
-                  {/* <Link to="/wishlist"> */}
-                  <button
-                    onClick={() => {
-                      dispatch(addToWishlist(product.sku));
-                      dispatch(reset());
-                    }}
-                    className="button"
-                  >
-                    {" "}
-                    Add to Wishlist
-                  </button>
-                  {/* </Link> */}
+                  <Link to="/wishlist">
+                    <button
+                      onClick={() => {
+                        dispatch(addToWishlist(product.sku));
+                        dispatch(reset());
+                      }}
+                      className="button"
+                    >
+                      {" "}
+                      Add to Wishlist
+                    </button>
+                  </Link>
                   <Link to={`/products/${product.sku}`}>
                     <button className="button">View Product</button>
                   </Link>
