@@ -138,7 +138,9 @@ export const wishSlice = createSlice({
       .addCase(removeFromWishlist.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.wishlist = action.payload;
+        state.wishlist = state.wishlist.filter(
+          (item) => item._id !== action.payload.wishlist
+        );
       })
 
       // REJECTED

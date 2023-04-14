@@ -20,7 +20,7 @@ const getOrder = async (id, token) => {
     },
   };
 
-  const response = await axios.get(`${orderData}/${id}`, {}, config);
+  const response = await axios.get(`${orderData}/${id}`, config);
 
   return response.data;
 };
@@ -46,7 +46,6 @@ const deleteOrder = async (id, token) => {
 
   const response = await axios.delete(
     `${orderData}/remove-order/${id}`,
-    {},
     config
   );
 
@@ -60,7 +59,7 @@ const clearOrders = async (token) => {
     },
   };
 
-  const response = await axios.delete(`${orderData}/clear-orders`, {}, config);
+  const response = await axios.delete(`${orderData}/clear-orders`, config);
 
   return response.data;
 };

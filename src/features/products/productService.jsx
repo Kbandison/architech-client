@@ -22,55 +22,6 @@ const deleteProduct = async (id) => {
 
 /*****************USER ROUTES****************/
 
-// CART
-const getCart = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.get(`${productData}/cart`, config);
-
-  return response.data;
-};
-
-const addCart = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.put(`${productData}/add-cart/${id}`, config);
-
-  return response.data;
-};
-
-const removeCart = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.put(`${productData}/remove-cart/${id}`, config);
-
-  return response.data;
-};
-
-const clearCart = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.put(`${productData}/clear-cart`, config);
-
-  return response.data;
-};
-
 //ORDER HISTORY
 const getHistory = async (token) => {
   const config = {
@@ -100,9 +51,6 @@ const productService = {
   getProducts,
   getProduct,
   deleteProduct,
-  getCart,
-  addCart,
-  removeCart,
   getHistory,
   addHistory,
 };

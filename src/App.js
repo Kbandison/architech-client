@@ -18,6 +18,7 @@ import ProductPage from "./Pages/ProductPage";
 import AccountBar from "./Components/AccountBar";
 import OrderHistory from "./Pages/OrderHistory";
 import OrdersPage from "./Pages/OrdersPage";
+import Modal2 from "./Components/Modal2";
 
 function App() {
   const router = createBrowserRouter(
@@ -35,6 +36,7 @@ function App() {
           <Route path="/account/orders" element={<OrdersPage />} />
           <Route path="/account/order-history" element={<OrderHistory />} />
         </Route>
+        <Route path="/modal" element={<Modal2 />} />
       </Route>
     )
   );

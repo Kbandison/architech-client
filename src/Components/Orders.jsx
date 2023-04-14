@@ -19,12 +19,13 @@ const Orders = () => {
     }
 
     dispatch(getOrders());
-    console.log(orders);
 
     return () => {
       dispatch(reset());
     };
   }, [dispatch, isError, message]);
+
+  console.log("Orders", orders);
 
   if (isLoading) {
     return <Spinner />;
@@ -35,11 +36,32 @@ const Orders = () => {
       <h1>Orders</h1>
       {orders.map((item, i) => {
         return (
-          <div key={i}>
-            <img src={item.image} alt="" />
-            <p>{item.product}</p>
-            <p>{item.price}</p>
-            <p>{item.quantity}</p>
+          <div key={i} className="m-16">
+            <h3>Order {i + 1}: </h3>
+            <p>
+              Ordered at: {new Date(item.orderDate).toLocaleString("en-US")}
+            </p>
+            <p>
+              Order Total: ${item.orderTotal.toFixed(2).toLocaleString("en-US")}
+            </p>
+            <p>Order #: {item.orderNumber}</p>
+            <p>Status: "{item.orderStatus}"</p>
+            <p>Items:</p>
+            {item.orderItems.map((item, i) => {
+              return (
+                <div key={i}>
+                  <img src={item.product.image} alt="" />
+                  <ul>
+                    <li>Item sku: {item.product.sku}</li>
+                    <li>Item: {item.product.name}</li>
+                    <li>
+                      Price: ${item.product.totalPrice.toLocaleString("en-US")}
+                    </li>
+                    <li>Quantity: {item.product.quantity}</li>
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         );
       })}

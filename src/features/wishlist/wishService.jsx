@@ -20,7 +20,7 @@ const addWishItem = async (id, token) => {
     },
   };
 
-  const response = await axios.post(`${wishData}/add-wish/${id}`, config);
+  const response = await axios.post(`${wishData}/add-wish/${id}`, {}, config);
 
   return response.data;
 };
@@ -32,11 +32,7 @@ const removeWishItem = async (id, token) => {
     },
   };
 
-  const response = await axios.delete(
-    `${wishData}/remove-wish/${id}`,
-    {},
-    config
-  );
+  const response = await axios.delete(`${wishData}/remove-wish/${id}`, config);
 
   return response.data;
 };
@@ -48,7 +44,7 @@ const clearWishes = async (token) => {
     },
   };
 
-  const response = await axios.delete(`${wishData}/clear-wish`, {}, config);
+  const response = await axios.delete(`${wishData}/clear-wish`, config);
 
   return response.data;
 };

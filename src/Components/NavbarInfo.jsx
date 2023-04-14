@@ -47,7 +47,7 @@ const NavbarInfo = () => {
             <Link to={user ? "/wishlist" : "/login"}>Wishlist</Link>
           </li>
           <li className="link hover:-translate-y-2">
-            <Link to="/cart">Cart</Link>
+            <Link to={user ? "/cart" : "/login"}>Cart</Link>
           </li>
           <li className="link hover:-translate-y-2">
             <Link to={user ? "/account" : "/login"}>My Account</Link>

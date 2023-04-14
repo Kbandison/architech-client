@@ -44,7 +44,7 @@ const clearCart = async (token) => {
     },
   };
 
-  const response = await axios.delete(`${cartData}/clear-cart`, {}, config);
+  const response = await axios.delete(`${cartData}/clear-cart`, config);
 
   return response.data;
 };
