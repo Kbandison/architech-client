@@ -37,6 +37,18 @@ const removeCart = async (id, token) => {
   return response.data;
 };
 
+const clearQuantity = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.delete(`${cartData}/clear-item/${id}`, config);
+
+  return response.data;
+};
+
 const clearCart = async (token) => {
   const config = {
     headers: {
@@ -53,6 +65,7 @@ const cartService = {
   getCart,
   addCart,
   removeCart,
+  clearQuantity,
   clearCart,
 };
 

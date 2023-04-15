@@ -63,6 +63,24 @@ export const removeFromCart = createAsyncThunk(
   }
 );
 
+export const clearItem = createAsyncThunk(
+  "cart/clearQuantity",
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await cartService.clearQuantity(id, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const emptyCart = createAsyncThunk(
   "cart/emptyCart",
   async (_, thunkAPI) => {

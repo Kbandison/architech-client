@@ -6,6 +6,7 @@ import {
   getUserCart,
   addToCart,
   removeFromCart,
+  clearItem,
   emptyCart,
   reset,
 } from "../features/cart/cartSlice";
@@ -103,7 +104,7 @@ const Cart = () => {
                     <button
                       onClick={() => {
                         refreshPage();
-                        dispatch(removeFromCart(item.sku));
+                        dispatch(clearItem(item.sku));
                       }}
                       className="button h-10"
                     >

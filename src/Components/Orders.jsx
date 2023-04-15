@@ -36,7 +36,7 @@ const Orders = () => {
       <h1>Orders</h1>
       {orders.map((item, i) => {
         return (
-          <div key={i} className="m-16">
+          <div key={i} className="m-16 border-b pb-12">
             <h3>Order {i + 1}: </h3>
             <p>
               Ordered at: {new Date(item.orderDate).toLocaleString("en-US")}
