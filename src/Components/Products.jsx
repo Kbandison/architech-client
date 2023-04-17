@@ -7,6 +7,7 @@ import { addToCart } from "../features/cart/cartSlice";
 import Modal2 from "./Modal2";
 import Spinner from "./Spinner";
 import Pagination from "./Pagination";
+import SearchField from "./SearchField";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Products = () => {
     (state) => state.products
   );
 
+  const { user } = useSelector((state) => state.auth);
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
 
@@ -49,65 +51,69 @@ const Products = () => {
   return (
     <>
       <h1>Products</h1>
-      <div className="grid grid-cols-2 gap-4">
-        {currentProducts.map((product, i) => {
-          return (
-            <div
-              key={i}
-              className="flex flex-col rounded-lg bg-white shadow-lg dark:bg-neutral-700 md:max-w-xl md:flex-row"
-            >
-              <div className="flex justify-center">
-                <img
-                  src={product.image}
-                  alt=""
-                  className="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                />
-                <div className="flex flex-col justify-start p-6">
-                  <h5 className="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50">
-                    {product.manufacturer} {product.name}
-                  </h5>
-                  {product.onSale &&
-                    product.salePrice < product.regularPrice && (
-                      <p>
-                        SALE! $
-                        {Math.ceil(product.regularPrice - product.salePrice)}{" "}
-                        OFF!
-                      </p>
-                    )}
-                  <p>Regular Price: ${product.regularPrice}</p>
-                  <p>
+      <div className="flex justify-center">
+        {/* <SearchField products={products} /> */}
+        <div className="">
+          {currentProducts.map((product, i) => {
+            return (
+              <div key={i} className="border ">
+                <div className="flex ">
+                  <img src={product.image} alt="" className="" />
+                  <div className="flex flex-col justify-start p-6">
+                    <h5 className="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50">
+                      {product.manufacturer} {product.name}
+                    </h5>
                     {product.onSale &&
-                      product.salePrice < product.regularPrice &&
-                      `Sale Price: $${product.salePrice}`}
-                  </p>
-                  <button
-                    onClick={() => {
-                      dispatch(addToWishlist(product.sku));
-                      setCartModal(true);
-                      setWishModal(true);
-                    }}
-                    className="button w-44"
-                  >
-                    {" "}
-                    Add to Wishlist
-                  </button>
-                  <Link to={`/products/${product.sku}`}>
-                    <button className="button">View Product</button>
-                  </Link>
-                  <button
-                    className="button w-40 active:cursor-progress"
-                    onClick={() => {
-                      dispatch(addToCart(product.sku));
-                      setCartModal(true);
-                    }}
-                  >
-                    Add to Cart
-                  </button>
+                      product.salePrice < product.regularPrice && (
+                        <p>
+                          SALE! $
+                          {Math.ceil(product.regularPrice - product.salePrice)}{" "}
+                          OFF!
+                        </p>
+                      )}
+                    <p>Regular Price: ${product.regularPrice}</p>
+                    <p>
+                      {product.onSale &&
+                        product.salePrice < product.regularPrice &&
+                        `Sale Price: $${product.salePrice}`}
+                    </p>
+                    <button
+                      onClick={
+                        user
+                          ? () => {
+                              dispatch(addToWishlist(product.sku));
+                              setCartModal(true);
+                              setWishModal(true);
+                            }
+                          : () => navigate("/login")
+                      }
+                      className="button w-44"
+                    >
+                      {" "}
+                      Add to Wishlist
+                    </button>
+                    <Link to={`/products/${product.sku}`}>
+                      <button className="button">View Product</button>
+                    </Link>
+                    <button
+                      className="button w-40 active:cursor-progress"
+                      onClick={
+                        user
+                          ? () => {
+                              dispatch(addToCart(product.sku));
+                              setCartModal(true);
+                            }
+                          : () => navigate("/login")
+                      }
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
       <Pagination
         currentPage={currentPage}
