@@ -43,6 +43,10 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const refreshUser = createAsyncThunk("auth/refresh", async () => {
+  return await authService.refresh();
+});
+
 export const logoutUser = createAsyncThunk("auth/logout", async () => {
   return await authService.logout();
 });
@@ -98,6 +102,28 @@ export const authSlice = createSlice({
 
       // REJECTED
       .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+
+      /**********************REFRESH BUILDERS********************/
+
+      // PENDING
+      .addCase(refreshUser.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      // FULLFILLED
+      .addCase(refreshUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+
+      // REJECTED
+      .addCase(refreshUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

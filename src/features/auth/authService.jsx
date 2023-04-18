@@ -22,6 +22,16 @@ const login = async (user) => {
   return response.data;
 };
 
+const refresh = async () => {
+  const response = await axios.get(`${userData}/refresh`);
+
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
 const logout = () => {
   localStorage.removeItem("user");
 };
@@ -29,6 +39,7 @@ const logout = () => {
 const authService = {
   register,
   login,
+  refresh,
   logout,
 };
 

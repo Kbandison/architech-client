@@ -13,6 +13,11 @@ const getOrders = async (token) => {
   return response.data;
 };
 
+const getAll = async (token) => {
+  const response = await axios.get(`${orderData}/all-orders`);
+  return response.data;
+};
+
 const getOrder = async (id, token) => {
   const config = {
     headers: {
@@ -33,6 +38,22 @@ const createOrder = async (order, token) => {
   };
 
   const response = await axios.post(`${orderData}/add-order`, order, config);
+
+  return response.data;
+};
+
+const updateOrder = async (id, order, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(
+    `${orderData}/update-order/${id}`,
+    order,
+    config
+  );
 
   return response.data;
 };
@@ -66,8 +87,10 @@ const clearOrders = async (token) => {
 
 const orderService = {
   getOrders,
+  getAll,
   getOrder,
   createOrder,
+  updateOrder,
   deleteOrder,
   clearOrders,
 };

@@ -39,9 +39,11 @@ const Wishlist = () => {
     };
   }, [cartModal, dispatch, isError, message]);
 
+  let reversedWishes = [...wishlist].reverse();
+
   const indexOfLastWish = currentPage * wishesPerPage;
   const indexOfFirstWish = indexOfLastWish - wishesPerPage;
-  const currentWishes = wishlist.slice(indexOfFirstWish, indexOfLastWish);
+  const currentWishes = reversedWishes.slice(indexOfFirstWish, indexOfLastWish);
 
   const refreshPage = () => {
     window.location.reload();

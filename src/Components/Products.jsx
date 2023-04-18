@@ -33,7 +33,6 @@ const Products = () => {
     }
 
     dispatch(getProducts());
-    console.log(products);
 
     return () => {
       dispatch(reset());
@@ -42,7 +41,10 @@ const Products = () => {
 
   const indexOfLastPost = currentPage * productsPerPage;
   const indexOfFirstPost = indexOfLastPost - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstPost, indexOfLastPost);
+  const currentProducts =
+    products.length > 0
+      ? products.slice(indexOfFirstPost, indexOfLastPost)
+      : products;
 
   if (isLoading) {
     return <Spinner />;
@@ -51,68 +53,74 @@ const Products = () => {
   return (
     <>
       <h1>Products</h1>
+      {/* <SearchField products={products} /> */}
       <div className="flex justify-center">
-        {/* <SearchField products={products} /> */}
         <div className="">
-          {currentProducts.map((product, i) => {
-            return (
-              <div key={i} className="border ">
-                <div className="flex ">
-                  <img src={product.image} alt="" className="" />
-                  <div className="flex flex-col justify-start p-6">
-                    <h5 className="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50">
-                      {product.manufacturer} {product.name}
-                    </h5>
-                    {product.onSale &&
-                      product.salePrice < product.regularPrice && (
-                        <p>
-                          SALE! $
-                          {Math.ceil(product.regularPrice - product.salePrice)}{" "}
-                          OFF!
-                        </p>
-                      )}
-                    <p>Regular Price: ${product.regularPrice}</p>
-                    <p>
+          {currentProducts.length > 0 ? (
+            currentProducts.map((product, i) => {
+              return (
+                <div key={i} className="border ">
+                  <div className="flex ">
+                    <img src={product.image} alt="" className="" />
+                    <div className="flex flex-col justify-start p-6">
+                      <h5 className="mb-2 text-xl font-medium ">
+                        {product.product}
+                      </h5>
                       {product.onSale &&
-                        product.salePrice < product.regularPrice &&
-                        `Sale Price: $${product.salePrice}`}
-                    </p>
-                    <button
-                      onClick={
-                        user
-                          ? () => {
-                              dispatch(addToWishlist(product.sku));
-                              setCartModal(true);
-                              setWishModal(true);
-                            }
-                          : () => navigate("/login")
-                      }
-                      className="button w-44"
-                    >
-                      {" "}
-                      Add to Wishlist
-                    </button>
-                    <Link to={`/products/${product.sku}`}>
-                      <button className="button">View Product</button>
-                    </Link>
-                    <button
-                      className="button w-40 active:cursor-progress"
-                      onClick={
-                        user
-                          ? () => {
-                              dispatch(addToCart(product.sku));
-                              setCartModal(true);
-                            }
-                          : () => navigate("/login")
-                      }
-                    >
-                      Add to Cart
-                    </button>
+                        product.salePrice < product.regularPrice && (
+                          <p>
+                            SALE! $
+                            {Math.ceil(
+                              product.regularPrice - product.salePrice
+                            )}{" "}
+                            OFF!
+                          </p>
+                        )}
+                      <p>Regular Price: ${product.regularPrice}</p>
+                      <p>
+                        {product.onSale &&
+                          product.salePrice < product.regularPrice &&
+                          `Sale Price: $${product.salePrice}`}
+                      </p>
+                      <button
+                        onClick={
+                          user
+                            ? () => {
+                                dispatch(addToWishlist(product.sku));
+                                setCartModal(true);
+                                setWishModal(true);
+                              }
+                            : () => navigate("/login")
+                        }
+                        className="button w-44"
+                      >
+                        {" "}
+                        Add to Wishlist
+                      </button>
+                      <Link to={`/products/${product.sku}`}>
+                        <button className="button">View Product</button>
+                      </Link>
+                      <button
+                        className="button w-40 active:cursor-progress"
+                        onClick={
+                          user
+                            ? () => {
+                                dispatch(addToCart(product.sku));
+                                setCartModal(true);
+                              }
+                            : () => navigate("/login")
+                        }
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          ) : (
+            <h3>No Products found</h3>
+          )}
         </div>
       </div>
       <Pagination

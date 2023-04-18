@@ -19,6 +19,10 @@ import AccountBar from "./Components/AccountBar";
 import OrderHistory from "./Pages/OrderHistory";
 import OrdersPage from "./Pages/OrdersPage";
 import Modal2 from "./Components/Modal2";
+import OrderConfirm from "./Components/OrderConfirm";
+import AdminNavBar from "./Components/AdminNavBar";
+import UserAccounts from "./Components/UserAccounts";
+import AdminOrderPage from "./Pages/AdminOrderPage";
 
 function App() {
   const router = createBrowserRouter(
@@ -31,12 +35,17 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/products/:id" element={<ProductPage />} />
+        <Route path="/order-confirm" element={<OrderConfirm />} />
         <Route element={<AccountBar />}>
           <Route path="/account" element={<AccountPage />} />
           <Route path="/account/orders" element={<OrdersPage />} />
           <Route path="/account/order-history" element={<OrderHistory />} />
         </Route>
         <Route path="/modal" element={<Modal2 />} />
+        <Route element={<AdminNavBar />}>
+          <Route path="/admin/users" element={<UserAccounts />} />
+          <Route path="/admin/orders" element={<AdminOrderPage />} />
+        </Route>
       </Route>
     )
   );

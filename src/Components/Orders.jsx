@@ -20,12 +20,16 @@ const Orders = () => {
 
     dispatch(getOrders());
 
+    if (!user) {
+      navigate("/login");
+    }
+
     return () => {
       dispatch(reset());
     };
-  }, [dispatch, isError, message]);
+  }, [user, navigate, dispatch, isError, message]);
 
-  console.log("Orders", orders);
+  let reversedOrders = [...orders].reverse();
 
   if (isLoading) {
     return <Spinner />;
@@ -34,37 +38,56 @@ const Orders = () => {
   return (
     <div>
       <h1>Orders</h1>
-      {orders.map((item, i) => {
-        return (
-          <div key={i} className="m-16 border-b pb-12">
-            <h3>Order {i + 1}: </h3>
-            <p>
-              Ordered at: {new Date(item.orderDate).toLocaleString("en-US")}
-            </p>
-            <p>
-              Order Total: ${item.orderTotal.toFixed(2).toLocaleString("en-US")}
-            </p>
-            <p>Order #: {item.orderNumber}</p>
-            <p>Status: "{item.orderStatus}"</p>
-            <p>Items:</p>
-            {item.orderItems.map((item, i) => {
-              return (
-                <div key={i}>
-                  <img src={item.product.image} alt="" />
-                  <ul>
-                    <li>Item sku: {item.product.sku}</li>
-                    <li>Item: {item.product.name}</li>
-                    <li>
-                      Price: ${item.product.totalPrice.toLocaleString("en-US")}
-                    </li>
-                    <li>Quantity: {item.product.quantity}</li>
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
+      {reversedOrders ? (
+        reversedOrders.map((item, i) => {
+          return (
+            <div key={i} className="m-16 border-b pb-12">
+              <h2>
+                Ordered at: {new Date(item.orderDate).toLocaleString("en-US")}
+              </h2>
+              <p>
+                Order Total: $
+                {Number(item.orderTotal).toFixed(2).toLocaleString("en-US")}
+              </p>
+              {item.orderSavings > 0 && (
+                <p>Order Savings: {item.orderSavings.toFixed(2)}</p>
+              )}
+              <p>Order #: {item.orderNumber}</p>
+              <p>Status: "{item.orderStatus}"</p>
+              <p>Items:</p>
+              {item.orderItems ? (
+                item.orderItems.map((orderItem, i) => {
+                  return (
+                    <div key={i}>
+                      <img src={orderItem.product.image} alt="" />
+                      <ul>
+                        <li>orderItem sku: {orderItem.product.sku}</li>
+                        <li>orderItem: {orderItem.product.name}</li>
+                        <li>
+                          Price: $
+                          {orderItem.product.totalPrice.toLocaleString("en-US")}{" "}
+                          {orderItem.product.regularPrice >
+                            orderItem.product.salePrice && (
+                            <span className="text-green-500">SALE!</span>
+                          )}
+                        </li>
+                        <li>Quantity: {orderItem.product.quantity}</li>
+                      </ul>
+                    </div>
+                  );
+                })
+              ) : (
+                <h3>Cannot Find Orders</h3>
+              )}
+            </div>
+          );
+        })
+      ) : (
+        <h3>Cannot Find Orders</h3>
+      )}
+      {orders.length === 0 && (
+        <h2 className="text-center m-96">No Orders Yet</h2>
+      )}
     </div>
   );
 };

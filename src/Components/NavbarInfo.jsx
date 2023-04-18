@@ -54,7 +54,7 @@ const NavbarInfo = () => {
           </li>
           {user && user.user.scope === "admin" && (
             <li className="link hover:-translate-y-2">
-              <Link to="/users">Users</Link>
+              <Link to="/admin/users">ADMIN</Link>
             </li>
           )}
           <li className=" text-xl link hover:bg-[#DE3C4B] hover:text-[#E4FDE1] py-1 px-6 rounded-lg">
@@ -120,7 +120,7 @@ const NavbarInfo = () => {
             </li>
             {user && user.user.scope === "admin" && (
               <li className="link text-[#1C2321] p-4">
-                <Link to="/users">Users</Link>
+                <Link to="/admin/users">ADMIN</Link>
               </li>
             )}
             <li

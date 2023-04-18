@@ -1,8 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { refreshUser } from "../features/auth/authSlice";
 
 const Account = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, accessToken, refreshToken } = useSelector(
+    (state) => state.auth
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

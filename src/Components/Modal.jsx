@@ -1,7 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Modal = (props) => {
+  const navigate = useNavigate();
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
   if (!props.open) {
     return null;
   } else {
@@ -23,9 +28,16 @@ const Modal = (props) => {
             <div className="p-16">
               <h2 className="text-center">Congrats on your purchase!</h2>
               <div className="flex justify-center gap-20 mt-16">
-                <Link to="/account/orders">
-                  <button className="button">My Orders</button>
-                </Link>
+                {/* <Link to="/account/orders"> */}
+                <button
+                  className="button"
+                  onClick={() => {
+                    navigate("/account/orders");
+                  }}
+                >
+                  My Orders
+                </button>
+                {/* </Link> */}
               </div>
             </div>
           </div>

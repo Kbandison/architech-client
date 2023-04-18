@@ -1,8 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { getItem, reset } from "../features/products/productSlice";
 import Spinner from "./Spinner";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { addToCart } from "../features/cart/cartSlice";
+import { addToWishlist } from "../features/wishlist/wishSlice";
+import Modal2 from "./Modal2";
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -12,6 +15,9 @@ const Product = () => {
   const { products, isLoading, isError, message } = useSelector(
     (state) => state.products
   );
+
+  const [cartModal, setCartModal] = useState(false);
+  const [wishModal, setWishModal] = useState(false);
 
   const { id } = useParams();
 
@@ -54,9 +60,38 @@ const Product = () => {
         </div>
         <img src={products.image} alt="" />
       </div>
-      <Link to="/products" className="button">
-        Back to Products
-      </Link>
+      <div>
+        <button
+          className="button"
+          onClick={() => {
+            dispatch(addToCart(id));
+            setCartModal(true);
+          }}
+        >
+          Add to Cart
+        </button>
+        <button
+          className="button"
+          onClick={() => {
+            dispatch(addToWishlist(id));
+            setCartModal(true);
+            setWishModal(true);
+          }}
+        >
+          Add to Wishlist
+        </button>
+        <Link to="/products" className="button">
+          Back to Products
+        </Link>
+      </div>
+      <Modal2
+        cartOpen={cartModal}
+        wishOpen={wishModal}
+        onClose={() => {
+          setCartModal(false);
+          setWishModal(false);
+        }}
+      />
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 const AccountBar = () => {
   return (
     <div>
-      <div className="flex justify-center mt-6 mb-8 border border-[#DE3C4B]">
+      <div className="flex justify-center mt-6 mb-8 border-t border-b border-[#DE3C4B]">
         <Link to="/account" className="button font-bold">
           Account Info
         </Link>

@@ -19,8 +19,6 @@ const Cart = () => {
   let cartTotal = 0;
   let cartItemTotal = 0;
 
-  let [total, setTotal] = useState(0);
-
   let [checkoutModal, setCheckoutModal] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
@@ -43,16 +41,16 @@ const Cart = () => {
 
     dispatch(getUserCart());
 
-    setTotal();
-
     return () => {
       dispatch(reset());
     };
-  }, [user, isError, message]);
+  }, [user, checkoutModal, isError, message]);
 
   const refreshPage = () => {
     window.location.reload();
   };
+
+  const reversedCart = [...cart].reverse();
 
   if (isLoading) {
     return <Spinner />;
@@ -63,8 +61,8 @@ const Cart = () => {
       <h1 className="text-center mt-20">{user.user.firstName}'s Cart</h1>
       <div className="flex justify-center mt-32">
         <div className="">
-          {cart.length > 0 ? (
-            cart.map((item, i) => {
+          {reversedCart.length > 0 ? (
+            reversedCart.map((item, i) => {
               return (
                 <div
                   key={i}
@@ -73,6 +71,7 @@ const Cart = () => {
                   <img src={item.image} alt="" className="w-30 h-24" />
                   <p className="font-bold mx-8">{item.product}</p>
                   <div className="flex flex-col items-center">
+                    {item.regularPrice > item.salePrice && <p>SALE!</p>}
                     <p>
                       Price: $
                       {item.price % 1 !== 0
