@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders, reset } from "../features/orders/ordersSlice";
 import Spinner from "./Spinner";
+import { logoutUser } from "../features/auth/authSlice";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,11 @@ const Orders = () => {
   useEffect(() => {
     if (isError) {
       console.log(message);
+    }
+
+    if (message.includes("Token has expired!")) {
+      dispatch(logoutUser());
+      navigate("/login");
     }
 
     dispatch(getOrders());

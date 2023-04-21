@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { memorizedCart } from "./Selector";
 import Spinner from "./Spinner";
 import {
   getUserCart,
@@ -12,6 +13,7 @@ import {
 } from "../features/cart/cartSlice";
 import { createOrder } from "../features/orders/ordersSlice";
 import Modal from "./Modal";
+import { logoutUser } from "../features/auth/authSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -26,17 +28,23 @@ const Cart = () => {
     (state) => state.cart
   );
 
-  cart.map((item) => {
-    return (cartTotal += item.price);
-  });
+  cart &&
+    cart.length > 0 &&
+    cart.forEach((item) => {
+      cartTotal += item.price;
+      cartItemTotal += item.quantity;
+    });
 
-  cart.map((item) => {
-    return (cartItemTotal += item.quantity);
-  });
+  // cart.map((item) => {});
 
   useEffect(() => {
     if (isError) {
       console.log(message);
+    }
+
+    if (message.includes("Token has expired!")) {
+      dispatch(logoutUser());
+      navigate("/login");
     }
 
     dispatch(getUserCart());
@@ -44,10 +52,21 @@ const Cart = () => {
     return () => {
       dispatch(reset());
     };
-  }, [user, checkoutModal, isError, message]);
+  }, [checkoutModal, isError, message, navigate, dispatch]);
 
-  const refreshPage = () => {
-    window.location.reload();
+  const handleAddToCart = async (sku) => {
+    await dispatch(addToCart(sku));
+    await dispatch(getUserCart());
+  };
+
+  const handleRemoveFromCart = async (sku) => {
+    await dispatch(removeFromCart(sku));
+    await dispatch(getUserCart());
+  };
+
+  const handleClearFromCart = async (sku) => {
+    await dispatch(clearItem(sku));
+    await dispatch(getUserCart());
   };
 
   const reversedCart = [...cart].reverse();
@@ -75,36 +94,27 @@ const Cart = () => {
                     <p>
                       Price: $
                       {item.price % 1 !== 0
-                        ? Number(item.price).toFixed(2)
-                        : item.price - 0.01}
+                        ? Number(item.price).toLocaleString("en-US")
+                        : (item.price - 0.01).toLocaleString("en-US")}
                     </p>
                     <p className="m-4">
                       Quantity:{" "}
                       <span
                         className="cursor-pointer font-bold mx-1 button"
-                        onClick={() => {
-                          refreshPage();
-                          dispatch(removeFromCart(item.sku));
-                        }}
+                        onClick={() => handleRemoveFromCart(item.sku)}
                       >
                         -
                       </span>{" "}
                       {item.quantity}{" "}
                       <span
                         className="font-bold mx-1 cursor-pointer button"
-                        onClick={() => {
-                          refreshPage();
-                          dispatch(addToCart(item.sku));
-                        }}
+                        onClick={() => handleAddToCart(item.sku)}
                       >
                         +
                       </span>
                     </p>
                     <button
-                      onClick={() => {
-                        refreshPage();
-                        dispatch(clearItem(item.sku));
-                      }}
+                      onClick={() => handleClearFromCart(item.sku)}
                       className="button h-10"
                     >
                       Remove from Cart
@@ -117,15 +127,15 @@ const Cart = () => {
             <h3 className="text-center mt-64">Cart is empty</h3>
           )}
           <h4 className="text-end font-bold">
-            {cart.length > 0 && `Total items: ${cartItemTotal}`}
+            {reversedCart.length > 0 && `Total items: ${cartItemTotal}`}
           </h4>
           <br />
           <h3 className="text-end font-bold">
-            {cart.length > 0 &&
+            {reversedCart.length > 0 &&
               `Total price: $${cartTotal.toLocaleString("en-US")}`}
           </h3>
           <br />
-          {cart.length > 0 && (
+          {reversedCart.length > 0 && (
             <button
               className="button w-full"
               onClick={() => dispatch(emptyCart())}
@@ -134,7 +144,7 @@ const Cart = () => {
             </button>
           )}
           <br />
-          {cart.length > 0 && (
+          {reversedCart.length > 0 && (
             <button
               className="button w-full"
               onClick={() => {

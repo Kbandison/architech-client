@@ -4,20 +4,25 @@ import { refreshUser } from "../features/auth/authSlice";
 
 const Account = () => {
   const { user, accessToken, refreshToken } = useSelector(
-    (state) => state.auth
+    (state) => state.auth.user
   );
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userInfo = user.user;
-
   return (
     <div>
       <div>
-        <h1>{userInfo.firstName}</h1>
-        <h1>{userInfo.lastName}</h1>
+        <h1>{user.firstName}</h1>
+        <h1>{user.lastName}</h1>
+        <p>Account ID: {user._id}</p>
+        <p>Email: {user.email}</p>
+        <p>Phone #: {user.phoneNumber}</p>
       </div>
-      <p>Email: {userInfo.email}</p>
+      <h4>Address: </h4>
+      <p>Street: {user.address.street}</p>
+      <p>City: {user.address.city}</p>
+      <p>State: {user.address.state}</p>
+      <p>Zip: {user.address.zip}</p>
     </div>
   );
 };

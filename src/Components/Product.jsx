@@ -3,8 +3,12 @@ import { getItem, reset } from "../features/products/productSlice";
 import Spinner from "./Spinner";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { addToCart } from "../features/cart/cartSlice";
-import { addToWishlist } from "../features/wishlist/wishSlice";
+import { addToCart, clearItem, getUserCart } from "../features/cart/cartSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+  getWishlist,
+} from "../features/wishlist/wishSlice";
 import Modal2 from "./Modal2";
 
 const Product = () => {
@@ -12,6 +16,8 @@ const Product = () => {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
+  const { wishlist } = useSelector((state) => state.wishlist);
+  const { cart } = useSelector((state) => state.cart);
   const { products, isLoading, isError, message } = useSelector(
     (state) => state.products
   );
@@ -27,11 +33,21 @@ const Product = () => {
     }
 
     dispatch(getItem(id));
+    dispatch(getWishlist());
+    dispatch(getUserCart());
 
     return () => {
       dispatch(reset());
     };
   }, [id, dispatch, isError, message]);
+
+  const findWish = (sku) => {
+    return wishlist.find((wish) => wish.sku === sku);
+  };
+
+  const findCart = (sku) => {
+    return cart.find((cart) => cart.sku === sku);
+  };
 
   if (isLoading) {
     return <Spinner />;
@@ -61,25 +77,64 @@ const Product = () => {
         <img src={products.image} alt="" />
       </div>
       <div>
-        <button
-          className="button"
-          onClick={() => {
-            dispatch(addToCart(id));
-            setCartModal(true);
-          }}
-        >
-          Add to Cart
-        </button>
-        <button
-          className="button"
-          onClick={() => {
-            dispatch(addToWishlist(id));
-            setCartModal(true);
-            setWishModal(true);
-          }}
-        >
-          Add to Wishlist
-        </button>
+        {findCart(products.sku) ? (
+          <button
+            className="button w-44"
+            onClick={
+              user
+                ? async () => {
+                    await dispatch(clearItem(products.sku));
+                    await dispatch(getUserCart());
+                  }
+                : () => navigate("/login")
+            }
+          >
+            Remove from Cart
+          </button>
+        ) : (
+          <button
+            className="button w-44"
+            onClick={
+              user
+                ? async () => {
+                    await dispatch(addToCart(products.sku));
+                    await dispatch(getUserCart());
+                  }
+                : () => navigate("/login")
+            }
+          >
+            Add to Cart
+          </button>
+        )}
+        {findWish(products.sku) ? (
+          <button
+            className="button w-44"
+            onClick={
+              user
+                ? async () => {
+                    await dispatch(removeFromWishlist(products.sku));
+                    await dispatch(getWishlist());
+                  }
+                : () => navigate("/login")
+            }
+          >
+            Remove from Wish
+          </button>
+        ) : (
+          <button
+            className="button w-44"
+            onClick={
+              user
+                ? async () => {
+                    await dispatch(addToWishlist(products.sku));
+                    await dispatch(getWishlist());
+                  }
+                : () => navigate("/login")
+            }
+          >
+            Add to Wishlist
+          </button>
+        )}
         <Link to="/products" className="button">
           Back to Products
         </Link>

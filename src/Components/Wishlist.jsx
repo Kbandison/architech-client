@@ -6,8 +6,9 @@ import {
   removeFromWishlist,
   reset,
 } from "../features/wishlist/wishSlice";
+import { logoutUser } from "../features/auth/authSlice";
 import Spinner from "./Spinner";
-import { addToCart } from "../features/cart/cartSlice";
+import { addToCart, clearItem, getUserCart } from "../features/cart/cartSlice";
 import Modal2 from "./Modal2";
 import Pagination from "./Pagination";
 
@@ -15,10 +16,11 @@ const Wishlist = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user } = useSelector((state) => state.auth);
   const { wishlist, isLoading, isError, message } = useSelector(
     (state) => state.wishlist
   );
+  const { cart } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.auth);
 
   const [cartModal, setCartModal] = useState(false);
   const [RemoveWishModal, setRemoveWishModal] = useState(false);
@@ -31,13 +33,18 @@ const Wishlist = () => {
       console.log(message);
     }
 
+    if (message && message.includes("Token has expired!")) {
+      dispatch(logoutUser());
+      navigate("/login");
+    }
+
     dispatch(getWishlist());
-    console.log(wishlist);
+    dispatch(getUserCart());
 
     return () => {
       dispatch(reset());
     };
-  }, [cartModal, dispatch, isError, message]);
+  }, [cartModal, dispatch, isError, message, navigate]);
 
   let reversedWishes = [...wishlist].reverse();
 
@@ -45,8 +52,21 @@ const Wishlist = () => {
   const indexOfFirstWish = indexOfLastWish - wishesPerPage;
   const currentWishes = reversedWishes.slice(indexOfFirstWish, indexOfLastWish);
 
-  const refreshPage = () => {
-    window.location.reload();
+  const findCart = (sku) => {
+    return cart.find((cart) => cart.sku === sku);
+  };
+
+  const handleAddCart = async (sku) => {
+    await dispatch(addToCart(sku));
+    await dispatch(removeFromWishlist(sku));
+    await dispatch(getWishlist());
+    // setCartModal(true);
+  };
+
+  const handleRemoveWish = async (sku) => {
+    await dispatch(removeFromWishlist(sku));
+    await dispatch(getWishlist());
+    // setRemoveWishModal(true);
   };
 
   if (isLoading) {
@@ -63,24 +83,38 @@ const Wishlist = () => {
             <div key={i}>
               <img src={item.image} alt="" />
               <p>{item.product}</p>
-              <p>Price: ${item.price}</p>
+              <p>Price: ${Number(item.price).toLocaleString("en-US")}</p>
+              {findCart(item.sku) ? (
+                <button
+                  className="button w-44"
+                  onClick={
+                    user
+                      ? async () => {
+                          await dispatch(clearItem(item.sku));
+                          await dispatch(getUserCart());
+                        }
+                      : () => navigate("/login")
+                  }
+                >
+                  Remove from Cart
+                </button>
+              ) : (
+                <button
+                  className="button w-44"
+                  onClick={
+                    user
+                      ? async () => {
+                          await dispatch(addToCart(item.sku));
+                          await dispatch(getUserCart());
+                        }
+                      : () => navigate("/login")
+                  }
+                >
+                  Add to Cart
+                </button>
+              )}
               <button
-                onClick={() => {
-                  dispatch(addToCart(item.sku));
-                  dispatch(removeFromWishlist(item.sku));
-                  setCartModal(true);
-                }}
-                className="button"
-              >
-                Add to Cart
-              </button>
-              <button
-                onClick={() => {
-                  setCartModal(true);
-                  setRemoveWishModal(true);
-                  dispatch(removeFromWishlist(item.sku));
-                  dispatch(reset());
-                }}
+                onClick={() => handleRemoveWish(item.sku)}
                 className="button"
               >
                 Remove Wish

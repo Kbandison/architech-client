@@ -25,7 +25,7 @@ const getUser = async (id, token) => {
   // };
 
   const response = await axios.get(
-    `${userData}/users/${id}`
+    `${userData}/user/${id}`
     // config
   );
 

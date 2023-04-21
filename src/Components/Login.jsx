@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { loginUser, reset } from "../features/auth/authSlice";
+import { loginUser, logoutUser, reset } from "../features/auth/authSlice";
 import Spinner from "./Spinner";
+import { useOutletContext } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const setIsLoggedIn = useOutletContext();
 
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
@@ -24,12 +26,13 @@ const Login = () => {
       dispatch(reset());
     }
 
-    if (isSuccess || user) {
+    if (isSuccess) {
       navigate("/");
+      console.log("isSuccess");
     }
 
     dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [isError, isSuccess, message, user, navigate, dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +47,9 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoggedIn(true);
     dispatch(loginUser(loginData));
+    console.log("handleSubmit");
   };
 
   if (isLoading) {

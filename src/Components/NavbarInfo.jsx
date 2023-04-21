@@ -1,5 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,6 +12,23 @@ const NavbarInfo = () => {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (user || isLoggedIn) {
+      console.log("logged in", isLoggedIn);
+      const timeout = setTimeout(() => {
+        setIsLoggedIn((prevState) => prevState === false);
+        dispatch(logoutUser());
+        navigate("/login");
+      }, 900000);
+      return () => {
+        clearTimeout(timeout);
+        console.log("timeout cleared");
+      };
+    }
+  }, [user, isLoggedIn, dispatch, navigate]);
 
   const handleNav = () => {
     setNav(!nav);
@@ -104,13 +121,13 @@ const NavbarInfo = () => {
               className="link p-4 text-[#1C2321] border-b border-[#1C2321]"
               onClick={handleNav}
             >
-              <Link to="/wishlist">Wishlist</Link>
+              <Link to={user ? "/wishlist" : "/login"}>Wishlist</Link>
             </li>
             <li
               className="link p-4 text-[#1C2321] border-b border-[#1C2321]"
               onClick={handleNav}
             >
-              <Link to="/cart">Cart</Link>
+              <Link to={user ? "/cart" : "/login"}>Cart</Link>
             </li>
             <li
               className="link p-4 text-[#1C2321] border-b border-[#1C2321]"
@@ -119,7 +136,7 @@ const NavbarInfo = () => {
               <Link to={user ? "/account" : "/login"}>My Account</Link>
             </li>
             {user && user.user.scope === "admin" && (
-              <li className="link text-[#1C2321] p-4">
+              <li className="link text-[#1C2321] p-4" onClick={handleNav}>
                 <Link to="/admin/users">ADMIN</Link>
               </li>
             )}
@@ -143,7 +160,7 @@ const NavbarInfo = () => {
           </ul>
         </div>
       </nav>
-      <Outlet />
+      <Outlet context={setIsLoggedIn} />
     </>
   );
 };

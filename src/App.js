@@ -23,11 +23,14 @@ import OrderConfirm from "./Components/OrderConfirm";
 import AdminNavBar from "./Components/AdminNavBar";
 import UserAccounts from "./Components/UserAccounts";
 import AdminOrderPage from "./Pages/AdminOrderPage";
+import UserOrdersPage from "./Pages/UserOrdersPage";
+import NotFoundPage from "./Pages/NotFoundPage";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route element={<NavBar />}>
+        <Route path="*" element={<NotFoundPage />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/wishlist" element={<WishlistPage />} />
@@ -43,7 +46,12 @@ function App() {
         </Route>
         <Route path="/modal" element={<Modal2 />} />
         <Route element={<AdminNavBar />}>
-          <Route path="/admin/users" element={<UserAccounts />} />
+          <Route path="/admin/users" element={<UserAccounts />}>
+            <Route
+              path="/admin/users/orders/:id"
+              element={<UserOrdersPage />}
+            />
+          </Route>
           <Route path="/admin/orders" element={<AdminOrderPage />} />
         </Route>
       </Route>

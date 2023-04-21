@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Pagination = ({
   currentPage,
@@ -6,6 +7,8 @@ const Pagination = ({
   productsPerPage,
   products,
 }) => {
+  const navigate = useNavigate();
+
   const previousPage = () => {
     setCurrentPage(currentPage - 1);
   };

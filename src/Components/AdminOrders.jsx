@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllOrders, reset } from "../features/orders/ordersSlice";
 import Spinner from "./Spinner";
@@ -9,6 +9,8 @@ const AdminOrders = () => {
   const { orders, isLoading, isError, message } = useSelector(
     (state) => state.orders
   );
+
+  const [statusChange, setStatusChange] = useState(false);
 
   useEffect(() => {
     if (isError) {
@@ -24,6 +26,8 @@ const AdminOrders = () => {
 
   let reversedOrders = [...orders].reverse();
 
+  const handleSubmit = (e) => {};
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -36,27 +40,34 @@ const AdminOrders = () => {
         reversedOrders.map((item, i) => {
           return (
             <div key={i} className="m-16 border-b pb-12">
-              <h4>User ID: {item.user}</h4>
+              <h3>
+                Ordered on: {new Date(item.orderDate).toLocaleString("en-US")}
+              </h3>
               <h5>
                 Customer: {item.firstName} {item.lastName}
               </h5>
+              <p>User ID: {item.user}</p>
               <p>
-                Ordered at: {new Date(item.orderDate).toLocaleString("en-US")}
-              </p>
-              <p>
-                Order Total: $
-                {Number(item.orderTotal).toFixed(2).toLocaleString("en-US")}
+                Order Total: ${Number(item.orderTotal).toLocaleString("en-US")}
               </p>
               <p>Order #: {item.orderNumber}</p>
               {/* <p>Status: "{item.orderStatus}"</p> */}
-              <label htmlFor="status">Status: </label>
-              <select name="status" id="" className="input">
-                <option value="pending">Pending</option>
-                <option value="shipped">Shipped</option>
-                <option value="delivered">Delivered</option>
-              </select>
-              <br />
-              {/* <button className="button">Update Status</button> */}
+              <form action="" onSubmit={handleSubmit}>
+                <label htmlFor="status">Status: </label>
+                <select
+                  name="status"
+                  id="status"
+                  className="input"
+                  value={item.orderStatus}
+                  onChange={(e) => setStatusChange(e.target.value)}
+                >
+                  <option value="pending">Pending</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="delivered">Delivered</option>
+                </select>
+                <br />
+                <button className="button">Update Status</button>
+              </form>
             </div>
           );
         })

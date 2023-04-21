@@ -19,13 +19,7 @@ const getAll = async (token) => {
 };
 
 const getOrder = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.get(`${orderData}/${id}`, config);
+  const response = await axios.get(`${orderData}/user-orders/${id}`);
 
   return response.data;
 };
