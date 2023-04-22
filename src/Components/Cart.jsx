@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { memorizedCart } from "./Selector";
 import Spinner from "./Spinner";
 import {
   getUserCart,

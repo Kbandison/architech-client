@@ -6,7 +6,7 @@ const SearchField = ({ handleSearch, results, search, setSearch, sort }) => {
   };
 
   return (
-    <div className="m-16 w-full">
+    <div className="m-16 w-1/2">
       <div className=" flex justify-center gap-96 py-4">
         <h3>{results.length} items</h3>
         <div>
@@ -16,7 +16,7 @@ const SearchField = ({ handleSearch, results, search, setSearch, sort }) => {
           <select
             name="sort"
             id="sort"
-            className="input ml-4"
+            className="input ml-4 text-center"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -37,7 +37,7 @@ const SearchField = ({ handleSearch, results, search, setSearch, sort }) => {
           id="search"
           placeholder="Search for a Product by SKU, Name, Manufacturer or Description"
           onChange={handleSearch}
-          className="w-1/2 border-b bg-inherit p-4 text-3xl input"
+          className="w-4/5 border-b bg-inherit p-4 text-3xl input text-center"
         />
         {/* <div>
           <input type="checkbox" name="" id="samsung" />

@@ -7,12 +7,7 @@ import {
   removeFromWishlist,
   getWishlist,
 } from "../features/wishlist/wishSlice";
-import {
-  addToCart,
-  removeFromCart,
-  getUserCart,
-  clearItem,
-} from "../features/cart/cartSlice";
+import { addToCart, getUserCart, clearItem } from "../features/cart/cartSlice";
 import Modal2 from "./Modal2";
 import Spinner from "./Spinner";
 import Pagination from "./Pagination";
@@ -54,7 +49,7 @@ const Products = () => {
   }, [dispatch, isError, message]);
 
   useEffect(() => {
-    setSearchResults(products);
+    // setSearchResults(products);
 
     const resultArray = [...products];
 
@@ -112,21 +107,19 @@ const Products = () => {
   }, [products, search]);
 
   const handleSearch = (e) => {
-    if (e.target.value === "") {
-      setSearchResults(products);
+    const search = e.target.value;
+
+    if (search === "") {
+      return searchResults[search];
     }
 
     const resultsArray = products.filter(
       (product) =>
-        product.product.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        product.longDescription
-          .toLowerCase()
-          .includes(e.target.value.toLowerCase()) ||
-        product.manufacturer
-          .toLowerCase()
-          .includes(e.target.value.toLowerCase()) ||
-        product.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        product.sku.toString().includes(e.target.value)
+        product.product.toLowerCase().includes(search.toLowerCase()) ||
+        product.longDescription.toLowerCase().includes(search.toLowerCase()) ||
+        product.manufacturer.toLowerCase().includes(search.toLowerCase()) ||
+        product.name.toLowerCase().includes(search.toLowerCase()) ||
+        product.sku.toString().includes(search)
     );
 
     return setSearchResults(resultsArray);
@@ -276,7 +269,7 @@ const Products = () => {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         productsPerPage={productsPerPage}
-        products={products}
+        products={searchResults}
       />
       <Modal2
         cartOpen={cartModal}
