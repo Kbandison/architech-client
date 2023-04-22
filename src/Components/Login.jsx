@@ -24,6 +24,7 @@ const Login = () => {
     if (isError) {
       setLoginMessage(message);
       dispatch(reset());
+      console.log(message);
     }
 
     if (isSuccess) {

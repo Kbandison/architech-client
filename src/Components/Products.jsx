@@ -51,7 +51,7 @@ const Products = () => {
   useEffect(() => {
     // setSearchResults(products);
 
-    const resultArray = [...products];
+    const resultArray = products ? [...products] : products;
 
     if (products || search) {
       if (search === "default") {
@@ -198,6 +198,9 @@ const Products = () => {
                           onClick={
                             user
                               ? async () => {
+                                  if (isLoading) {
+                                    return <Spinner />;
+                                  }
                                   await dispatch(
                                     removeFromWishlist(product.sku)
                                   );
@@ -214,6 +217,9 @@ const Products = () => {
                           onClick={
                             user
                               ? async () => {
+                                  if (isLoading) {
+                                    return <Spinner />;
+                                  }
                                   await dispatch(addToWishlist(product.sku));
                                   await dispatch(getWishlist());
                                 }
