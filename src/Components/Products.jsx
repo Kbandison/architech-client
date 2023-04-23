@@ -49,59 +49,57 @@ const Products = () => {
   }, [dispatch, isError, message]);
 
   useEffect(() => {
-    // setSearchResults(products);
-
     const resultArray = products ? [...products] : products;
 
     if (products || search) {
-      if (search === "default") {
-        return setSearchResults(products);
-      }
-
-      if (search === "price-ascending") {
-        return setSearchResults(
-          resultArray.sort((a, b) => a.salePrice - b.salePrice)
-        );
-      }
-
-      if (search === "price-descending") {
-        return setSearchResults(
-          resultArray.sort((a, b) => b.salePrice - a.salePrice)
-        );
-      }
-
-      if (search === "name-descending") {
-        return setSearchResults(
-          resultArray.sort((a, b) => {
-            if (a.product < b.product) {
-              return 1;
-            }
-            if (a.product > b.product) {
-              return -1;
-            }
-            return 0;
-          })
-        );
-      }
-
-      if (search === "name-ascending") {
-        return setSearchResults(
-          resultArray.sort((a, b) => {
-            if (a.product < b.product) {
-              return -1;
-            }
-            if (a.product > b.product) {
-              return 1;
-            }
-            return 0;
-          })
-        );
-      }
-
-      if (search === "sale") {
-        return setSearchResults(
-          resultArray.filter((product) => product.onSale === true)
-        );
+      switch (search) {
+        case "default":
+          setSearchResults(products);
+          break;
+        case "price-ascending":
+          setSearchResults(
+            resultArray.sort((a, b) => a.salePrice - b.salePrice)
+          );
+          break;
+        case "price-descending":
+          setSearchResults(
+            resultArray.sort((a, b) => b.salePrice - a.salePrice)
+          );
+          break;
+        case "name-descending":
+          setSearchResults(
+            resultArray.sort((a, b) => {
+              if (a.product < b.product) {
+                return 1;
+              }
+              if (a.product > b.product) {
+                return -1;
+              }
+              return 0;
+            })
+          );
+          break;
+        case "name-ascending":
+          setSearchResults(
+            resultArray.sort((a, b) => {
+              if (a.product < b.product) {
+                return -1;
+              }
+              if (a.product > b.product) {
+                return 1;
+              }
+              return 0;
+            })
+          );
+          break;
+        case "sale":
+          setSearchResults(
+            resultArray.filter((product) => product.onSale === true)
+          );
+          break;
+        default:
+          setSearchResults(products);
+          break;
       }
     }
   }, [products, search]);

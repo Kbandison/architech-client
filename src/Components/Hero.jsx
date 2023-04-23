@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <div className="border">
+    <div className="">
       <div className="max-w-[800px] w-full mx-auto text-center flex flex-col justify-center mt-56 ">
         <p className="uppercase font-bold p-2">Welcome to the store!</p>
         <h1 className="md:text-7xl sm:text-6xl text-3xl font-bold md:py-6">
@@ -12,7 +12,7 @@ const Hero = () => {
         <div>
           <p className="md:text-5xl sm:4xl text-xl font-bold pt-2">
             Affordable Prices for{" "}
-            <span className="text-[#E4FDE1] underline decoration-solid underline decoration-[#DE3C4B]">
+            <span className="text-[#E4FDE1] underline decoration-solid decoration-[#DE3C4B]">
               <Typed
                 strings={["TV's", "Consoles.", "Cameras."]}
                 typedSpeed={180}

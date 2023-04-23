@@ -34,16 +34,9 @@ const Cart = () => {
       cartItemTotal += item.quantity;
     });
 
-  // cart.map((item) => {});
-
   useEffect(() => {
     if (isError) {
       console.log(message);
-    }
-
-    if (message.includes("Token has expired!")) {
-      dispatch(logoutUser());
-      navigate("/login");
     }
 
     dispatch(getUserCart());

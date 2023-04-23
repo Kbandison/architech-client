@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const SearchField = ({ handleSearch, results, search, setSearch, sort }) => {
+const SearchField = ({ handleSearch, results, search, setSearch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
