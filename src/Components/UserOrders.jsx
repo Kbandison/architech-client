@@ -1,17 +1,19 @@
 import React from "react";
 
-const UserOrders = (props) => {
+const UserOrders = ({ order }) => {
+  const reversedOrder = [...order].reverse();
+
   return (
     <div className="flex flex-col items-center relative">
-      {props.order.length > 0 && (
+      {order.length > 0 && (
         <h3 className="text-center border-b w-96">
-          # of Orders: {props.order.length}
+          # of Orders: {order.length}
         </h3>
       )}
 
       <div className="flex flex-col items-center">
-        {props.order.length > 0 ? (
-          props.order.map((order, i) => {
+        {reversedOrder.length > 0 ? (
+          reversedOrder.map((order, i) => {
             return (
               <div key={i} className="border-b flex flex-col  gap-2 m-4 p-4">
                 <h4>Order Number: {order.orderNumber}</h4>

@@ -11,6 +11,8 @@ import Spinner from "./Spinner";
 import { addToCart, clearItem, getUserCart } from "../features/cart/cartSlice";
 import Modal2 from "./Modal2";
 import Pagination from "./Pagination";
+import { BsCartDash, BsCartPlus } from "react-icons/bs";
+import { IoIosHeartDislike } from "react-icons/io";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -74,57 +76,69 @@ const Wishlist = () => {
   }
 
   return (
-    <div>
-      <h1>Wishlist Page</h1>
-
-      {currentWishes.length > 0 ? (
-        currentWishes.map((item, i) => {
-          return (
-            <div key={i}>
-              <img src={item.image} alt="" />
-              <p>{item.product}</p>
-              <p>Price: ${Number(item.price).toLocaleString("en-US")}</p>
-              {findCart(item.sku) ? (
-                <button
-                  className="button w-44"
-                  onClick={
-                    user
-                      ? async () => {
-                          await dispatch(clearItem(item.sku));
-                          await dispatch(getUserCart());
+    <div className="pt-16">
+      <h1 className="text-center">{user.user.firstName}'s Wishes</h1>
+      <div className="  grid grid-cols-2 content-center">
+        {currentWishes.length > 0 ? (
+          currentWishes.map((item, i) => {
+            return (
+              <div key={i} className="border-b m-8 py-8 flex justify-evenly">
+                <img src={item.image} alt="" className="w-96 h-56" />
+                <div className=" w-[50%] flex flex-col items-center p-8 gap-8">
+                  <h4>{item.product}</h4>
+                  <p className="text-xl">
+                    <strong>Price:</strong> $
+                    {Number(item.price).toLocaleString("en-US")}
+                  </p>
+                  <div className=" flex flex-col items-center gap-1">
+                    {findCart(item.sku) ? (
+                      <button
+                        className="button w-54 flex gap-2 items-center text-lg"
+                        onClick={
+                          user
+                            ? async () => {
+                                await dispatch(clearItem(item.sku));
+                                await dispatch(getUserCart());
+                              }
+                            : () => navigate("/login")
                         }
-                      : () => navigate("/login")
-                  }
-                >
-                  Remove from Cart
-                </button>
-              ) : (
-                <button
-                  className="button w-44"
-                  onClick={
-                    user
-                      ? async () => {
-                          await dispatch(addToCart(item.sku));
-                          await dispatch(getUserCart());
+                      >
+                        <BsCartDash className="scale-[130%] text-red-500" />{" "}
+                        <strong>Remove Item</strong>
+                      </button>
+                    ) : (
+                      <button
+                        className="button w-54 flex gap-2 items-center text-lg"
+                        onClick={
+                          user
+                            ? async () => {
+                                await dispatch(addToCart(item.sku));
+                                await dispatch(getUserCart());
+                              }
+                            : () => navigate("/login")
                         }
-                      : () => navigate("/login")
-                  }
-                >
-                  Add to Cart
-                </button>
-              )}
-              <button
-                onClick={() => handleRemoveWish(item.sku)}
-                className="button"
-              >
-                Remove Wish
-              </button>
-            </div>
-          );
-        })
-      ) : (
-        <h2 className="text-center mt-96 pt-4">Wishlist is empty</h2>
-      )}
+                      >
+                        <BsCartPlus className="scale-[130%] text-green-500" />{" "}
+                        <strong>Add to Cart</strong>
+                      </button>
+                    )}
+                    <button
+                      onClick={() => handleRemoveWish(item.sku)}
+                      className="button  w-54 flex gap-2 items-center text-lg"
+                    >
+                      {" "}
+                      <IoIosHeartDislike className="scale-[150%] text-red-500" />
+                      <strong>Remove Wish</strong>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <h2 className="text-center mt-96 pt-4">Wishlist is empty</h2>
+        )}
+      </div>
       {wishlist.length > 0 && (
         <Pagination
           currentPage={currentPage}

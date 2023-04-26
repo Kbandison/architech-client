@@ -19,14 +19,14 @@ const NavbarInfo = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // useEffect(() => {
-  //   dispatch(getUserCart());
-  //   dispatch(getWishlist());
+  useEffect(() => {
+    dispatch(getUserCart());
+    dispatch(getWishlist());
 
-  //   return () => {
-  //     dispatch(reset());
-  //   };
-  // }, [dispatch]);
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (user || isLoggedIn) {
@@ -110,11 +110,11 @@ const NavbarInfo = () => {
             )}
           </li>
         </ul>
-        <div onClick={handleNav} className="block md:hidden">
+        <div onClick={handleNav} className="block md:hidden cursor-pointer">
           {nav ? (
-            <AiOutlineClose className="h-8 w-8" />
+            <AiOutlineClose className="h-8 w-8 cursor-pointer" />
           ) : (
-            <AiOutlineMenu className="h-8 w-8" />
+            <AiOutlineMenu className="h-8 w-8 cursor-pointer" />
           )}
         </div>
         {/******************* Sidebar ********************/}
@@ -150,7 +150,9 @@ const NavbarInfo = () => {
               className="link p-4 text-[#1C2321] border-b border-[#1C2321]"
               onClick={handleNav}
             >
-              <Link to={user ? "/cart" : "/login"}>Cart</Link>
+              <Link to={user ? "/cart" : "/login"}>
+                Cart {user && cart && `(${cartCount.current})`}
+              </Link>
             </li>
             <li
               className="link p-4 text-[#1C2321] border-b border-[#1C2321]"

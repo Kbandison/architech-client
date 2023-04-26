@@ -24,7 +24,7 @@ const Dashboard = () => {
 
   // const prod = useMemo(() => {
   //   dispatch(getProducts());
-  //   return products && products.map((item) => item);
+  //   return products && products.length > 0 && products.map((item) => item);
   // }, [dispatch]);
 
   const random1 = useMemo(() => {
@@ -52,9 +52,9 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, [mainCarousel.length, carouselIndex]);
 
-  if (isLoading) {
-    return <Spinner />;
-  }
+  // if (isLoading) {
+  //   return <Spinner />;
+  // }
 
   return (
     <div className="">

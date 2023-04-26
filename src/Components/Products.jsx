@@ -12,6 +12,8 @@ import Modal2 from "./Modal2";
 import Spinner from "./Spinner";
 import Pagination from "./Pagination";
 import SearchField from "./SearchField";
+import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
+import { BsCartPlus, BsCartDash } from "react-icons/bs";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -152,88 +154,118 @@ const Products = () => {
   return (
     <>
       {/* <h1>Products</h1> */}
-      <div className="flex flex-col items-center justify-center">
+      <div id="page" className="flex flex-col items-center justify-center">
         <SearchField
           handleSearch={handleSearch}
           results={searchResults}
           setSearch={setSearch}
           search={search}
         />
-        <div className="">
+        <div id="products" className="w-[50%]">
           {currentProducts.length > 0 ? (
             currentProducts.map((product, i) => {
               return (
-                <div key={i} className="border ">
-                  <div className="flex ">
-                    <img src={product.image} alt="" className="" />
-                    <div className="flex flex-col justify-start p-6">
-                      <h5 className="mb-2 text-xl font-medium ">
+                <div
+                  id="each-product"
+                  key={i}
+                  className="border-b p-16 relative"
+                >
+                  {findWish(product.sku) ? (
+                    <MdFavorite
+                      className="text-red-500 scale-[180%] cursor-pointer absolute right-10 ease-in-out duration-500"
+                      onClick={
+                        user
+                          ? async () => {
+                              if (isLoading) {
+                                return <Spinner />;
+                              }
+                              await dispatch(removeFromWishlist(product.sku));
+                              await dispatch(getWishlist());
+                            }
+                          : () => navigate("/login")
+                      }
+                    />
+                  ) : (
+                    <MdOutlineFavoriteBorder
+                      className="scale-[180%] cursor-pointer absolute right-10 ease-in-out duration-500"
+                      onClick={
+                        user
+                          ? async () => {
+                              if (isLoading) {
+                                return <Spinner />;
+                              }
+                              await dispatch(addToWishlist(product.sku));
+                              await dispatch(getWishlist());
+                            }
+                          : () => navigate("/login")
+                      }
+                    />
+                  )}
+                  <div
+                    id="product-info-w-img"
+                    className="flex justify-evenly items-center"
+                  >
+                    <img
+                      src={product.image}
+                      alt=""
+                      className="w-56 h-36 cursor-pointer"
+                      onClick={() => navigate(`/products/${product.sku}`)}
+                    />
+                    <div id="important-info" className="w-[45%]">
+                      <h3
+                        className="mb-2 hover:underline cursor-pointer"
+                        onClick={() => navigate(`/products/${product.sku}`)}
+                      >
                         {product.product}
-                      </h5>
-                      {product.onSale &&
-                        product.salePrice < product.regularPrice && (
-                          <p>
-                            SALE! $
-                            {Math.ceil(
-                              product.regularPrice - product.salePrice
-                            ).toLocaleString("en-US")}{" "}
-                            OFF!
-                          </p>
-                        )}
-                      <p>
-                        Regular Price: $
-                        {Number(product.regularPrice).toLocaleString("en-US")}
-                      </p>
-                      <p>
+                      </h3>
+                      <div className="pt-12 w-full flex">
+                        <p>
+                          <strong className="pr-2">Model: </strong>{" "}
+                          {product.modelNumber}
+                        </p>
+                        <p className="ml-8">
+                          <strong className="pr-2">SKU:</strong> {product.sku}
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      id="product-info"
+                      className="flex flex-col items-center p-6"
+                    >
+                      <div className="pb-8">
                         {product.onSale &&
-                          product.salePrice < product.regularPrice &&
-                          `Sale Price: $${Number(
-                            product.salePrice
-                          ).toLocaleString("en-US")}`}
-                      </p>
-                      {findWish(product.sku) ? (
-                        <button
-                          className="button w-44"
-                          onClick={
-                            user
-                              ? async () => {
-                                  if (isLoading) {
-                                    return <Spinner />;
-                                  }
-                                  await dispatch(
-                                    removeFromWishlist(product.sku)
-                                  );
-                                  await dispatch(getWishlist());
-                                }
-                              : () => navigate("/login")
-                          }
+                          product.salePrice < product.regularPrice && (
+                            <h5>
+                              SALE! $
+                              {Math.ceil(
+                                product.regularPrice - product.salePrice
+                              ).toLocaleString("en-US")}{" "}
+                              OFF!
+                            </h5>
+                          )}
+                        <p
+                          className={`text-lg ${
+                            product.onSale &&
+                            product.salePrice < product.regularPrice &&
+                            "line-through text-sm"
+                          }`}
                         >
-                          Remove from Wish
-                        </button>
-                      ) : (
-                        <button
-                          className="button w-44"
-                          onClick={
-                            user
-                              ? async () => {
-                                  if (isLoading) {
-                                    return <Spinner />;
-                                  }
-                                  await dispatch(addToWishlist(product.sku));
-                                  await dispatch(getWishlist());
-                                }
-                              : () => navigate("/login")
-                          }
-                        >
-                          Add to Wishlist
-                        </button>
-                      )}
-                      <Link to={`/products/${product.sku}`}>
-                        <button className="button">View Product</button>
-                      </Link>
+                          <strong>Regular Price:</strong> $
+                          {Number(product.regularPrice).toLocaleString("en-US")}
+                        </p>
+                        {product.onSale &&
+                          product.salePrice < product.regularPrice && (
+                            <p className="text-lg">
+                              <strong>Sale Price: </strong> $
+                              {Number(product.salePrice).toLocaleString(
+                                "en-US"
+                              )}
+                            </p>
+                          )}
+                      </div>
                       {findCart(product.sku) ? (
                         <button
-                          className="button w-44"
+                          className="button w-54 flex gap-2 items-center text-lg"
                           onClick={
                             user
                               ? async () => {
@@ -243,11 +275,12 @@ const Products = () => {
                               : () => navigate("/login")
                           }
                         >
-                          Remove from Cart
+                          <BsCartDash className="scale-[130%] text-red-500" />{" "}
+                          Remove Item
                         </button>
                       ) : (
                         <button
-                          className="button w-44"
+                          className="button w-54 flex gap-2 items-center text-lg"
                           onClick={
                             user
                               ? async () => {
@@ -257,6 +290,7 @@ const Products = () => {
                               : () => navigate("/login")
                           }
                         >
+                          <BsCartPlus className="scale-[130%] text-green-500" />{" "}
                           Add to Cart
                         </button>
                       )}
