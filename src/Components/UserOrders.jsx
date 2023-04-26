@@ -2,7 +2,7 @@ import React from "react";
 
 const UserOrders = (props) => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center relative">
       {props.order.length > 0 && (
         <h3 className="text-center border-b w-96">
           # of Orders: {props.order.length}

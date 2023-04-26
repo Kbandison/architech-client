@@ -46,7 +46,7 @@ const Wishlist = () => {
     };
   }, [cartModal, dispatch, isError, message, navigate]);
 
-  let reversedWishes = [...wishlist].reverse();
+  let reversedWishes = wishlist && [...wishlist].reverse();
 
   const indexOfLastWish = currentPage * wishesPerPage;
   const indexOfFirstWish = indexOfLastWish - wishesPerPage;

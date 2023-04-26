@@ -1,25 +1,14 @@
 import React from "react";
 import Hero from "../Components/Hero";
-import {
-  addToCart,
-  getUserCart,
-  clearItem,
-  reset,
-} from "../features/cart/cartSlice";
-import {
-  addToWishlist,
-  removeFromWishlist,
-  getWishlist,
-} from "../features/wishlist/wishSlice";
-import { getProducts } from "../features/products/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Spinner from "../Components/Spinner";
 import ProductCard from "../Components/CarouselCard";
 import {
   HiOutlineArrowCircleLeft,
   HiOutlineArrowCircleRight,
 } from "react-icons/hi";
+import { getProducts, reset } from "../features/products/productSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -27,49 +16,31 @@ const Dashboard = () => {
   const { products, isLoading, isError, message } = useSelector(
     (state) => state.products
   );
-  const { user } = useSelector((state) => state.auth);
-  const { wishlist } = useSelector((state) => state.wishlist);
-  const { cart } = useSelector((state) => state.cart);
 
   const [mainCarousel, setMainCarousel] = useState([]);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
-  useEffect(() => {
-    if (isError) {
-      console.log(message);
-    }
+  const prod = [...products];
 
-    dispatch(getProducts());
-    dispatch(getWishlist());
-    dispatch(getUserCart());
-
-    return () => {
-      dispatch(reset());
-    };
-  }, [dispatch, isError, message]);
-
-  const prod = products && products.length > 0 && products.map((item) => item);
+  // const prod = useMemo(() => {
+  //   dispatch(getProducts());
+  //   return products && products.map((item) => item);
+  // }, [dispatch]);
 
   const random1 = useMemo(() => {
     const min = 1;
-    const max = prod.length - 6;
+    const max = prod && prod.length - 6;
     const random = Math.floor(Math.random() * (max - min) + min);
 
-    if (random < 0) {
-      return 1;
-    } else {
-      return random;
-    }
-  }, [prod.length]);
+    return random <= 0 ? 1 : random;
+  }, [prod]);
 
   const random2 = random1 + 5;
 
   useEffect(() => {
     prod && setMainCarousel(prod.sort().slice(random1, random2));
-    console.log(mainCarousel);
-    console.log(mainCarousel.length);
-    console.log("Product Length", random1);
-    console.log("Product length - 5", random2);
+    console.log("Random number", random1);
+    console.log("Random plus 5", random2);
   }, [dispatch]);
 
   useEffect(() => {
@@ -119,9 +90,8 @@ const Dashboard = () => {
 
           {mainCarousel &&
             mainCarousel.map((item, i) => (
-              <div>
+              <div key={i}>
                 <div
-                  key={i}
                   className=" justify-center transition-transform duration-1000 flex items-center"
                   style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
                 >
@@ -133,7 +103,7 @@ const Dashboard = () => {
             {mainCarousel.map((_, i) => (
               <div
                 key={i}
-                className={`h-2 w-2 rounded-full mx-1 cursor-pointer  ${
+                className={`h-2 w-2 rounded-full mx-1 cursor-pointer ${
                   carouselIndex === i ? "bg-black" : "bg-gray-300"
                 }`}
                 onClick={() => setCarouselIndex(i)}

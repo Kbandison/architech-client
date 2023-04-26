@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllOrders, reset } from "../features/orders/ordersSlice";
+import {
+  getAllOrders,
+  shipped,
+  delivered,
+  reset,
+} from "../features/orders/ordersSlice";
+import { addHistory } from "../features/history/historySlice";
 import Spinner from "./Spinner";
+import axios from "axios";
+import AdminOrdersTable from "./AdminOrdersTable";
 
 const AdminOrders = () => {
   const dispatch = useDispatch();
@@ -10,7 +18,7 @@ const AdminOrders = () => {
     (state) => state.orders
   );
 
-  const [statusChange, setStatusChange] = useState(false);
+  const [statusChange, setStatusChange] = useState(true);
 
   useEffect(() => {
     if (isError) {
@@ -24,56 +32,40 @@ const AdminOrders = () => {
     };
   }, [isError, message, dispatch]);
 
-  let reversedOrders = [...orders].reverse();
+  const update = async (id, status) => {
+    // setStatusChange(status);
 
-  const handleSubmit = (e) => {};
+    await axios.put(
+      `${process.env.REACT_APP_ENDPOINT}/orders/update-status/${id}`,
+      {
+        orderStatus: status,
+      }
+    );
+
+    if (status === "delivered") {
+      await dispatch(addHistory(id));
+    }
+
+    await dispatch(getAllOrders());
+  };
+
+  const newOrders = orders && orders.length > 0 && orders.map((order) => order);
+
+  let reversedOrders = newOrders && newOrders.reverse();
 
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
-    <div>
+    <div className="table-container">
       <h1>Orders to Fulfill</h1>
-      <h3># of Orders: {orders.length}</h3>
-      {reversedOrders ? (
-        reversedOrders.map((item, i) => {
-          return (
-            <div key={i} className="m-16 border-b pb-12">
-              <h3>
-                Ordered on: {new Date(item.orderDate).toLocaleString("en-US")}
-              </h3>
-              <h5>
-                Customer: {item.firstName} {item.lastName}
-              </h5>
-              <p>User ID: {item.user}</p>
-              <p>
-                Order Total: ${Number(item.orderTotal).toLocaleString("en-US")}
-              </p>
-              <p>Order #: {item.orderNumber}</p>
-              {/* <p>Status: "{item.orderStatus}"</p> */}
-              <form action="" onSubmit={handleSubmit}>
-                <label htmlFor="status">Status: </label>
-                <select
-                  name="status"
-                  id="status"
-                  className="input"
-                  value={item.orderStatus}
-                  onChange={(e) => setStatusChange(e.target.value)}
-                >
-                  <option value="pending">Pending</option>
-                  <option value="shipped">Shipped</option>
-                  <option value="delivered">Delivered</option>
-                </select>
-                <br />
-                <button className="button">Update Status</button>
-              </form>
-            </div>
-          );
-        })
-      ) : (
-        <p>No orders found</p>
-      )}
+      <AdminOrdersTable
+        orders={reversedOrders}
+        count={`# of Orders: ${orders && orders.length}`}
+        update={update}
+        status={statusChange}
+      />
     </div>
   );
 };

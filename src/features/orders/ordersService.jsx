@@ -36,7 +36,7 @@ const createOrder = async (order, token) => {
   return response.data;
 };
 
-const updateOrder = async (id, order, token) => {
+const statusShipped = async (id, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -44,10 +44,32 @@ const updateOrder = async (id, order, token) => {
   };
 
   const response = await axios.put(
-    `${orderData}/update-order/${id}`,
-    order,
+    `${orderData}/update-status/${id}`,
+    { orderStatus: "shipped" },
     config
   );
+
+  // console.log(token);
+  console.log(response.data);
+
+  return response.data;
+};
+
+const statusDelivered = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(
+    `${orderData}/update-status/${id}`,
+    { orderStatus: "delivered" },
+    config
+  );
+
+  // console.log(token);
+  console.log(response.data);
 
   return response.data;
 };
@@ -84,7 +106,8 @@ const orderService = {
   getAll,
   getOrder,
   createOrder,
-  updateOrder,
+  statusShipped,
+  statusDelivered,
   deleteOrder,
   clearOrders,
 };

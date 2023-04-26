@@ -48,13 +48,20 @@ const Products = () => {
     };
   }, [dispatch, isError, message]);
 
-  useEffect(() => {
-    const resultArray = products ? [...products] : products;
+  const prod =
+    products &&
+    products.length > 0 &&
+    products.map((product) => {
+      return product;
+    });
 
-    if (products || search) {
+  useEffect(() => {
+    const resultArray = prod ? prod : products;
+
+    if (prod || search) {
       switch (search) {
         case "default":
-          setSearchResults(products);
+          setSearchResults(prod);
           break;
         case "price-ascending":
           setSearchResults(
@@ -98,7 +105,7 @@ const Products = () => {
           );
           break;
         default:
-          setSearchResults(products);
+          setSearchResults(prod);
           break;
       }
     }
@@ -111,7 +118,7 @@ const Products = () => {
       return searchResults[search];
     }
 
-    const resultsArray = products.filter(
+    const resultsArray = prod.filter(
       (product) =>
         product.product.toLowerCase().includes(search.toLowerCase()) ||
         product.longDescription.toLowerCase().includes(search.toLowerCase()) ||
@@ -121,11 +128,6 @@ const Products = () => {
     );
 
     return setSearchResults(resultsArray);
-  };
-
-  const handleSort = (e) => {
-    setSearch(e);
-    // console.log("Products", search);
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -154,7 +156,6 @@ const Products = () => {
         <SearchField
           handleSearch={handleSearch}
           results={searchResults}
-          sort={handleSort}
           setSearch={setSearch}
           search={search}
         />

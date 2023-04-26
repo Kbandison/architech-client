@@ -79,6 +79,44 @@ export const getUserOrder = createAsyncThunk(
   }
 );
 
+export const shipped = createAsyncThunk(
+  "orders/orderShipped",
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      console.log("id", id);
+      return await ordersService.statusShipped(id, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const delivered = createAsyncThunk(
+  "orders/orderDelivered",
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      console.log("id", id);
+      return await ordersService.statusDelivered(id, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const deleteOrder = createAsyncThunk(
   "orders/deleteOrder",
   async (id, thunkAPI) => {
@@ -203,6 +241,52 @@ export const ordersSlice = createSlice({
 
       // REJECTED
       .addCase(getUserOrder.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      /*******************************UPDATE ORDER TO "SHIPPED"*****************************/
+
+      // PENDING
+      .addCase(shipped.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      // FULFILLED
+      .addCase(shipped.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.orders = state.orders.map((order) =>
+          order._id === action.payload._id ? action.payload : order
+        );
+      })
+
+      // REJECTED
+      .addCase(shipped.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      /*******************************UPDATE ORDER TO "DELIVERED"*****************************/
+
+      // PENDING
+      .addCase(delivered.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      // FULFILLED
+      .addCase(delivered.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.orders = state.orders.map((order) =>
+          order._id === action.payload._id ? action.payload : order
+        );
+      })
+
+      // REJECTED
+      .addCase(delivered.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

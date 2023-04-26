@@ -43,24 +43,40 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue = value;
+
+    if (name === "firstName" || name === "lastName")
+      newValue = value.replace(/\b\w/g, (c) => c.toUpperCase());
+
+    if (name === "phoneNumber") {
+      newValue = value.replace(/(\d{3})(\d{3})(\d{4})/, "($1)-$2-$3");
+    }
 
     setRegisterData((register) => {
       return {
         ...register,
-        [name]: value,
+        [name]: newValue,
       };
     });
   };
 
   const handleChangeAddress = (e) => {
     const { name, value } = e.target;
+    let newValue = value;
+
+    if (name === "street" || name === "city")
+      newValue = value.replace(/\b\w/g, (c) => c.toUpperCase());
+
+    if (name === "state") {
+      newValue = value.toUpperCase();
+    }
 
     setRegisterData((register) => {
       return {
         ...register,
         address: {
           ...register.address,
-          [name]: value,
+          [name]: newValue,
         },
       };
     });
@@ -131,7 +147,9 @@ const Register = () => {
               className="mb-12 input"
             />
             <input
-              type="text"
+              type="tel"
+              pattern="[(][0-9]{3}[)]-[0-9]{3}-[0-9]{4}"
+              maxLength="12"
               name="phoneNumber"
               id="phoneNumber"
               value={registerData.phoneNumber}

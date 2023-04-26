@@ -4,6 +4,8 @@ import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser, reset } from "../features/auth/authSlice";
+import { getUserCart } from "../features/cart/cartSlice";
+import { getWishlist } from "../features/wishlist/wishSlice";
 
 const NavbarInfo = () => {
   const [nav, setNav] = useState(false);
@@ -12,8 +14,19 @@ const NavbarInfo = () => {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
+  const { wishlist } = useSelector((state) => state.wishlist);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // useEffect(() => {
+  //   dispatch(getUserCart());
+  //   dispatch(getWishlist());
+
+  //   return () => {
+  //     dispatch(reset());
+  //   };
+  // }, [dispatch]);
 
   useEffect(() => {
     if (user || isLoggedIn) {
@@ -40,6 +53,14 @@ const NavbarInfo = () => {
     navigate("/login");
   };
 
+  const cartCount = useRef(0);
+
+  useEffect(() => {
+    if (cart) {
+      cartCount.current = cart.length;
+    }
+  }, [cart, dispatch]);
+
   return (
     <>
       <nav className="flex justify-between items-center text-1xl font-bold p-6">
@@ -64,7 +85,9 @@ const NavbarInfo = () => {
             <Link to={user ? "/wishlist" : "/login"}>Wishlist</Link>
           </li>
           <li className="link hover:-translate-y-2">
-            <Link to={user ? "/cart" : "/login"}>Cart</Link>
+            <Link to={user ? "/cart" : "/login"}>
+              Cart {user && cart && `(${cartCount.current})`}
+            </Link>
           </li>
           <li className="link hover:-translate-y-2">
             <Link to={user ? "/account" : "/login"}>My Account</Link>

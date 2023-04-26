@@ -25,6 +25,8 @@ import UserAccounts from "./Components/UserAccounts";
 import AdminOrderPage from "./Pages/AdminOrderPage";
 import UserOrdersPage from "./Pages/UserOrdersPage";
 import NotFoundPage from "./Pages/NotFoundPage";
+import AdminOrderHistory from "./Pages/AdminOrderHistory";
+import UpdateAccount from "./Components/UpdateAccount";
 
 function App() {
   const router = createBrowserRouter(
@@ -45,6 +47,7 @@ function App() {
           <Route path="/account/order-history" element={<OrderHistory />} />
         </Route>
         <Route path="/modal" element={<Modal2 />} />
+        <Route path="/update-modal" element={<UpdateAccount />} />
         <Route element={<AdminNavBar />}>
           <Route path="/admin/users" element={<UserAccounts />}>
             <Route
@@ -53,6 +56,7 @@ function App() {
             />
           </Route>
           <Route path="/admin/orders" element={<AdminOrderPage />} />
+          <Route path="/admin/history" element={<AdminOrderHistory />} />
         </Route>
       </Route>
     )
