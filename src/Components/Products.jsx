@@ -211,7 +211,7 @@ const Products = () => {
                       className="w-56 h-36 cursor-pointer"
                       onClick={() => navigate(`/products/${product.sku}`)}
                     />
-                    <div id="important-info" className="w-[45%]">
+                    <div id="important-info" className="w-[45%] pl-8">
                       <h3
                         className="mb-2 hover:underline cursor-pointer"
                         onClick={() => navigate(`/products/${product.sku}`)}
