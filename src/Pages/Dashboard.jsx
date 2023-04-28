@@ -52,9 +52,9 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, [mainCarousel.length, carouselIndex]);
 
-  // if (isLoading) {
-  //   return <Spinner />;
-  // }
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="">

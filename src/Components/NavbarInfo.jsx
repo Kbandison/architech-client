@@ -63,7 +63,7 @@ const NavbarInfo = () => {
 
   return (
     <>
-      <nav className="flex justify-between items-center text-1xl font-bold p-6">
+      <nav className="flex justify-between items-center text-1xl font-bold p-6 sticky top-0 bg-[#1c2321] z-50">
         {/* <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png"
           alt=""

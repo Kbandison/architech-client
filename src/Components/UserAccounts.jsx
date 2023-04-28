@@ -45,7 +45,7 @@ const UserAccounts = () => {
     <div className="">
       <h1 className="text-center ">User Accounts/Orders</h1>
       <div className="flex h-auto ">
-        <div className="4xl:w-1/4 3xl:w-1/4 2xl:w-1/4 xl:w-1/2 lg:w-1/2 md:w-1/2 flex flex-col items-center">
+        <div className="4xl:w-1/4 3xl:w-1/4 2xl:w-1/4 xl:w-1/2 lg:w-1/2 md:w-1/2 flex flex-col items-center ">
           <h2 className="mt-4 border-b p-2 m-8 ">
             # of User accounts: {users.length}
           </h2>

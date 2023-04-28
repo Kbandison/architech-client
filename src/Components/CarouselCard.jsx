@@ -85,7 +85,7 @@ const ProductCard = ({ product }) => {
     }
   };
 
-  // if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <div className="2xl:w-[50vw] w-[94vw] p-16 sm:p-4 flex gap-8 text-center items-center justify-center">

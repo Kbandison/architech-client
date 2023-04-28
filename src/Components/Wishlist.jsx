@@ -83,9 +83,19 @@ const Wishlist = () => {
           currentWishes.map((item, i) => {
             return (
               <div key={i} className="border-b m-8 py-8 flex justify-evenly">
-                <img src={item.image} alt="" className="w-96 h-56" />
+                <img
+                  src={item.image}
+                  alt=""
+                  className="w-96 h-56 cursor-pointer"
+                  onClick={() => navigate(`/products/${item.sku}`)}
+                />
                 <div className=" w-[50%] flex flex-col items-center p-8 gap-8">
-                  <h4>{item.product}</h4>
+                  <h4
+                    onClick={() => navigate(`/products/${item.sku}`)}
+                    className="cursor-pointer hover:underline"
+                  >
+                    {item.product}
+                  </h4>
                   <p className="text-xl">
                     <strong>Price:</strong> $
                     {Number(item.price).toLocaleString("en-US")}
