@@ -70,7 +70,7 @@ const Product = () => {
 
   return (
     <div className=" flex flex-col items-center">
-      <div className="my-32 w-[60%] flex flex-col items-start">
+      <div className="my-24 w-[60%] flex flex-col items-start">
         <div className="flex flex-col gap-4 ">
           <h1>{products.product}</h1>
           <div className="flex gap-8">
@@ -89,7 +89,8 @@ const Product = () => {
               </p>
               <p>
                 <strong className="pr-2">Review Count:</strong>{" "}
-                {products.customerReviewCount} reviews
+                {Number(products.customerReviewCount).toLocaleString("en-US")}{" "}
+                reviews
               </p>
             </div>
           )}
