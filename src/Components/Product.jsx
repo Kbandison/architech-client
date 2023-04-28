@@ -70,7 +70,7 @@ const Product = () => {
 
   return (
     <div className=" flex flex-col items-center">
-      <div className="my-32 border w-[60%] flex flex-col items-start">
+      <div className="my-32 w-[60%] flex flex-col items-start">
         <div className="flex flex-col gap-4 ">
           <h1>{products.product}</h1>
           <div className="flex gap-8">
@@ -94,9 +94,9 @@ const Product = () => {
             </div>
           )}
         </div>
-        <div className="flex justify-between border-[5px] w-full h-[40vh] p-16">
-          <div>
-            <div className="flex w-[25vw] border h-[20vh] overflow-hidden relative m-8 rounded-lg">
+        <div className="flex justify-between w-full h-[45vh] p-8">
+          <div className="flex flex-col items-center">
+            <div className="flex w-[30vw] border h-[40vh] overflow-hidden relative m-8 rounded-lg">
               <img
                 src={products.images && products.images[imgCarousel].href}
                 alt=""
@@ -117,10 +117,10 @@ const Product = () => {
                 })}
             </div>
           </div>
-          <div className="flex mt-16 flex-col">
-            <div className=" mb-8">
+          <div className="flex mt-4 flex-col">
+            <div className=" mb-72">
               <p
-                className={`text-lg ${
+                className={`text-2xl ${
                   products.onSale &&
                   products.salePrice < products.regularPrice &&
                   "line-through text-sm"
@@ -132,13 +132,13 @@ const Product = () => {
               {products.onSale &&
                 products.salePrice < products.regularPrice && (
                   <>
-                    <h4 className="border rounded-md w-28 text-center py-1 my-1">
+                    <h3 className="border rounded-md w-28 text-center py-1 my-1">
                       SAVE $
                       {Math.ceil(
                         products.regularPrice - products.salePrice
                       ).toLocaleString("en-US")}{" "}
-                    </h4>
-                    <p className="text-2xl">
+                    </h3>
+                    <p className="text-3xl">
                       <strong>Sale Price: </strong> $
                       {Number(products.salePrice).toLocaleString("en-US")}
                     </p>
@@ -152,7 +152,7 @@ const Product = () => {
             </div>
             {findCart(products.sku) ? (
               <button
-                className="button w-54 h-12 flex gap-2 items-center text-lg"
+                className="button w-48 h-12 flex gap-2 items-center text-lg"
                 onClick={
                   user
                     ? async () => {
@@ -166,7 +166,7 @@ const Product = () => {
               </button>
             ) : (
               <button
-                className="button w-54 h-12 flex gap-2 items-center text-lg"
+                className="button w-48 h-12 flex gap-2 items-center text-lg"
                 onClick={
                   user
                     ? async () => {
@@ -209,16 +209,23 @@ const Product = () => {
                 Add to Wishlist
               </button>
             )}
-            <Link
-              to="/products"
-              className="button flex h-12 items-center text-lg"
+            <button
+              className="button w-48 text-lg"
+              onClick={() => navigate("/products")}
             >
-              Back to Products
-            </Link>
+              Products Page
+            </button>
+
+            {/* </Link> */}
           </div>
         </div>
-        <div>
-          <h2 className="text-2xl">Description</h2>
+        <div className="mt-32">
+          <div className="border rounded-xl w-1/2 p-8">
+            <h2 className="text-2xl border-b w-36 my-4 pb-2">Description</h2>
+            <p className="text-lg leading-[2.5rem]">
+              {products.longDescription}
+            </p>
+          </div>
         </div>
       </div>
       <div></div>
