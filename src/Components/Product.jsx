@@ -123,7 +123,7 @@ const Product = () => {
                 className={`text-2xl ${
                   products.onSale &&
                   products.salePrice < products.regularPrice &&
-                  "line-through text-sm"
+                  "line-through text-xl"
                 }`}
               >
                 <strong>Regular Price:</strong> $
@@ -132,7 +132,7 @@ const Product = () => {
               {products.onSale &&
                 products.salePrice < products.regularPrice && (
                   <>
-                    <h3 className="border rounded-md w-28 text-center py-1 my-1">
+                    <h3 className="border rounded-md w-32 text-center py-1 my-1">
                       SAVE $
                       {Math.ceil(
                         products.regularPrice - products.salePrice
