@@ -151,7 +151,7 @@ const Product = () => {
                   
                 )} */}
             </div>
-            <div className="flex flex-col items-end">
+            <div className="flex flex-col items-end scale-[120%]">
               {findCart(products.sku) ? (
                 <button
                   className="button w-48 h-12 flex gap-2 items-center text-lg"
