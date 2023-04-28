@@ -151,73 +151,76 @@ const Product = () => {
                   
                 )} */}
             </div>
-            {findCart(products.sku) ? (
-              <button
-                className="button w-48 h-12 flex gap-2 items-center text-lg"
-                onClick={
-                  user
-                    ? async () => {
-                        await dispatch(clearItem(products.sku));
-                        await dispatch(getUserCart());
-                      }
-                    : () => navigate("/login")
-                }
-              >
-                <BsCartDash className="scale-[130%] text-red-500" /> Remove Item
-              </button>
-            ) : (
-              <button
-                className="button w-48 h-12 flex gap-2 items-center text-lg"
-                onClick={
-                  user
-                    ? async () => {
-                        await dispatch(addToCart(products.sku));
-                        await dispatch(getUserCart());
-                      }
-                    : () => navigate("/login")
-                }
-              >
-                <BsCartPlus className="scale-[130%] text-green-500" /> Add to
-                Cart
-              </button>
-            )}
-            {findWish(products.sku) ? (
+            <div className="flex flex-col items-end">
+              {findCart(products.sku) ? (
+                <button
+                  className="button w-48 h-12 flex gap-2 items-center text-lg"
+                  onClick={
+                    user
+                      ? async () => {
+                          await dispatch(clearItem(products.sku));
+                          await dispatch(getUserCart());
+                        }
+                      : () => navigate("/login")
+                  }
+                >
+                  <BsCartDash className="scale-[130%] text-red-500" /> Remove
+                  Item
+                </button>
+              ) : (
+                <button
+                  className="button w-48 h-12 flex gap-2 items-center text-lg"
+                  onClick={
+                    user
+                      ? async () => {
+                          await dispatch(addToCart(products.sku));
+                          await dispatch(getUserCart());
+                        }
+                      : () => navigate("/login")
+                  }
+                >
+                  <BsCartPlus className="scale-[130%] text-green-500" /> Add to
+                  Cart
+                </button>
+              )}
+              {findWish(products.sku) ? (
+                <button
+                  className="button w-48 text-lg"
+                  onClick={
+                    user
+                      ? async () => {
+                          await dispatch(removeFromWishlist(products.sku));
+                          await dispatch(getWishlist());
+                        }
+                      : () => navigate("/login")
+                  }
+                >
+                  Remove Wish
+                </button>
+              ) : (
+                <button
+                  className="button w-48 text-lg"
+                  onClick={
+                    user
+                      ? async () => {
+                          await dispatch(addToWishlist(products.sku));
+                          await dispatch(getWishlist());
+                        }
+                      : () => navigate("/login")
+                  }
+                >
+                  Add to Wishlist
+                </button>
+              )}
               <button
                 className="button w-48 text-lg"
-                onClick={
-                  user
-                    ? async () => {
-                        await dispatch(removeFromWishlist(products.sku));
-                        await dispatch(getWishlist());
-                      }
-                    : () => navigate("/login")
-                }
+                onClick={() => navigate("/products")}
               >
-                Remove Wish
+                Products Page
               </button>
-            ) : (
-              <button
-                className="button w-48 text-lg"
-                onClick={
-                  user
-                    ? async () => {
-                        await dispatch(addToWishlist(products.sku));
-                        await dispatch(getWishlist());
-                      }
-                    : () => navigate("/login")
-                }
-              >
-                Add to Wishlist
-              </button>
-            )}
-            <button
-              className="button w-48 text-lg"
-              onClick={() => navigate("/products")}
-            >
-              Products Page
-            </button>
 
-            {/* </Link> */}
+              {/* </Link> */}
+            </div>
           </div>
         </div>
         <div className="mt-32">
