@@ -88,7 +88,7 @@ const ProductCard = ({ product }) => {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="2xl:w-[50vw] w-[94vw] p-16 sm:p-4 flex gap-8 text-center items-center justify-center">
+    <div className=" 2xl:w-[50vw] w-[94vw] p-16 sm:p-4 flex gap-8 text-center items-center justify-center">
       <img
         src={product.image}
         alt={product.name}
@@ -165,7 +165,6 @@ const ProductCard = ({ product }) => {
           )}
         </div>
       </div>
-      <div></div>
     </div>
   );
 };
