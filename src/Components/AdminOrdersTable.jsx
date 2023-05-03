@@ -28,7 +28,13 @@ const AdminOrdersTable = ({ orders, history, count, status, update }) => {
                     {item.firstName} {item.lastName}
                   </td>
                   <td>{new Date(item.orderDate).toLocaleString("en-US")}</td>
-                  <td>${Number(item.orderTotal).toLocaleString("en-US")}</td>
+                  <td>
+                    $
+                    {Number(item.orderTotal).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </td>
                   <td>{item.orderNumber}</td>
                   <td>{item.email}</td>
                   <td>

@@ -86,8 +86,14 @@ const Cart = () => {
                     <p>
                       Price: $
                       {item.price % 1 !== 0
-                        ? Number(item.price).toLocaleString("en-US")
-                        : (item.price - 0.01).toLocaleString("en-US")}
+                        ? Number(item.price).toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })
+                        : Number(item.price - 0.01).toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })}
                     </p>
                     <p className="m-4">
                       Quantity:{" "}
@@ -124,7 +130,10 @@ const Cart = () => {
           <br />
           <h3 className="text-end font-bold">
             {reversedCart.length > 0 &&
-              `Total price: $${cartTotal.toLocaleString("en-US")}`}
+              `Total price: $${cartTotal.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`}
           </h3>
           <br />
           {reversedCart.length > 0 && (

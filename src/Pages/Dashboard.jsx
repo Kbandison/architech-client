@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Hero from "../Components/Hero";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useMemo } from "react";
@@ -20,7 +20,22 @@ const Dashboard = () => {
   const [mainCarousel, setMainCarousel] = useState([]);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
-  const prod = [...products];
+  useEffect(() => {
+    if (isError) {
+      console.log(message);
+    }
+
+    dispatch(getProducts());
+
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch, isError, message]);
+
+  const prod = useMemo(
+    () => products && products.length > 0 && [...products],
+    [products]
+  );
 
   // const prod = useMemo(() => {
   //   dispatch(getProducts());
@@ -28,20 +43,20 @@ const Dashboard = () => {
   // }, [dispatch]);
 
   const random1 = useMemo(() => {
-    const min = 1;
+    const min = 7;
     const max = prod && prod.length - 6;
     const random = Math.floor(Math.random() * (max - min) + min);
 
-    return random <= 0 ? 1 : random;
+    return random < 0 ? 7 : random;
   }, [prod]);
 
   const random2 = random1 + 5;
 
   useEffect(() => {
-    prod && setMainCarousel(prod.sort().slice(random1, random2));
-    console.log("Random number", random1);
-    console.log("Random plus 5", random2);
-  }, [dispatch]);
+    prod &&
+      prod.length > 0 &&
+      setMainCarousel(prod.sort().slice(random1, random2));
+  }, [dispatch, prod]);
 
   useEffect(() => {
     const interval = setInterval(() => {

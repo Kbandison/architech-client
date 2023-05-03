@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUsers, reset } from "../features/users/userSlice";
 import { getAllOrders, getUserOrder } from "../features/orders/ordersSlice";
-import { updateAUser } from "../features/users/userSlice";
+import { updateAUser, getAUser } from "../features/users/userSlice";
 import { deleteUser } from "../features/users/userSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,11 @@ const UserAccounts = () => {
   );
 
   const { orders } = useSelector((state) => state.orders);
+
+  const handleGetUser = async (id) => {
+    await dispatch(getAUser(id));
+    navigate(`/admin/users/${id}`);
+  };
 
   useEffect(() => {
     if (isError) {
@@ -81,7 +86,12 @@ const UserAccounts = () => {
                     >
                       View Orders
                     </button>
-                    <button className="button">View User Info</button>
+                    <button
+                      className="button"
+                      onClick={() => handleGetUser(user._id)}
+                    >
+                      View User Info
+                    </button>
                     {user.scope === "customer" && (
                       <button
                         className="button"

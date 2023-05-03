@@ -102,18 +102,29 @@ const ProductCard = ({ product }) => {
           <p>
             SALE! $
             {Math.ceil(product.regularPrice - product.salePrice).toLocaleString(
-              "en-US"
+              "en-US",
+              {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }
             )}{" "}
             OFF!
           </p>
         )}
         <p>
-          Regular Price: ${Number(product.regularPrice).toLocaleString("en-US")}
+          Regular Price: $
+          {Number(product.regularPrice).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
         </p>
         <p>
           {product.onSale &&
             product.salePrice < product.regularPrice &&
-            `Sale Price: $${Number(product.salePrice).toLocaleString("en-US")}`}
+            `Sale Price: $${Number(product.salePrice).toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}`}
         </p>
         <div className="my-14 md:my-8 sm:my-4">
           {isInCart(product.sku) ? (

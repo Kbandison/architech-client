@@ -27,45 +27,50 @@ import UserOrdersPage from "./Pages/UserOrdersPage";
 import NotFoundPage from "./Pages/NotFoundPage";
 import AdminOrderHistory from "./Pages/AdminOrderHistory";
 import UpdateAccount from "./Components/UpdateAccount";
+import FooterPage from "./Pages/FooterPage";
+import UserInfoPage from "./Pages/UserInfoPage";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route element={<NavBar />}>
-        <Route path="*" element={<NotFoundPage />} />
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/products" element={<ProductList />} />
-        <Route path="/wishlist" element={<WishlistPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/products/:id" element={<ProductPage />} />
-        <Route path="/order-confirm" element={<OrderConfirm />} />
-        <Route element={<AccountBar />}>
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/account/orders" element={<OrdersPage />} />
-          <Route path="/account/order-history" element={<OrderHistory />} />
-        </Route>
-        <Route path="/modal" element={<Modal2 />} />
-        <Route path="/update-modal" element={<UpdateAccount />} />
-        <Route element={<AdminNavBar />}>
-          <Route path="/admin/users" element={<UserAccounts />}>
-            <Route
-              path="/admin/users/orders/:id"
-              element={<UserOrdersPage />}
-            />
+      <Route element={<FooterPage />}>
+        <Route element={<NavBar />}>
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/products/:id" element={<ProductPage />} />
+          <Route path="/order-confirm" element={<OrderConfirm />} />
+          <Route element={<AccountBar />}>
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/account/orders" element={<OrdersPage />} />
+            <Route path="/account/order-history" element={<OrderHistory />} />
           </Route>
-          <Route path="/admin/orders" element={<AdminOrderPage />} />
-          <Route path="/admin/history" element={<AdminOrderHistory />} />
+          <Route path="/modal" element={<Modal2 />} />
+          <Route path="/update-modal" element={<UpdateAccount />} />
+          <Route element={<AdminNavBar />}>
+            <Route path="/admin/users" element={<UserAccounts />}>
+              <Route path="/admin/users/:id" element={<UserInfoPage />} />
+              <Route
+                path="/admin/users/orders/:id"
+                element={<UserOrdersPage />}
+              />
+            </Route>
+            <Route path="/admin/orders" element={<AdminOrderPage />} />
+            <Route path="/admin/history" element={<AdminOrderHistory />} />
+          </Route>
         </Route>
       </Route>
     )
   );
 
   return (
-    <>
+    <div className="flex flex-col min-h-[100vh]">
       <RouterProvider router={router} />
-    </>
+    </div>
   );
 }
 

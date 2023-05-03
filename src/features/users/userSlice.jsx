@@ -3,6 +3,7 @@ import userService from "./userService";
 
 const initialState = {
   users: [],
+  user: {},
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -135,7 +136,7 @@ export const userSlice = createSlice({
       .addCase(getAUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.users = action.payload;
+        state.user = action.payload;
       })
 
       // REJECTED

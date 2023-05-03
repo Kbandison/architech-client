@@ -232,37 +232,72 @@ const Products = () => {
                       id="product-info"
                       className="flex flex-col items-center p-6"
                     >
-                      <div className="pb-8">
-                        {product.onSale &&
-                          product.salePrice < product.regularPrice && (
-                            <h5>
-                              SALE! $
-                              {Math.ceil(
-                                product.regularPrice - product.salePrice
-                              ).toLocaleString("en-US")}{" "}
-                              OFF!
-                            </h5>
-                          )}
-                        <p
-                          className={`text-lg ${
-                            product.onSale &&
-                            product.salePrice < product.regularPrice &&
-                            "line-through text-sm"
-                          }`}
-                        >
-                          <strong>Regular Price:</strong> $
-                          {Number(product.regularPrice).toLocaleString("en-US")}
-                        </p>
-                        {product.onSale &&
-                          product.salePrice < product.regularPrice && (
+                      {user && user.user.scope !== "customer" ? (
+                        <div className="pb-8">
+                          <p className="text-md line-through">
+                            <strong>Regular Price:</strong> $
+                            {Number(product.regularPrice).toLocaleString(
+                              "en-US"
+                            )}
+                          </p>
+                          {
                             <p className="text-lg">
-                              <strong>Sale Price: </strong> $
-                              {Number(product.salePrice).toLocaleString(
-                                "en-US"
-                              )}
+                              <strong>Employee Price: </strong> $
+                              {Number(product.regularPrice * 0.65)
+                                // .toFixed(2)
+                                .toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })}
                             </p>
-                          )}
-                      </div>
+                          }
+                        </div>
+                      ) : (
+                        <div className="pb-8">
+                          {product.onSale &&
+                            product.salePrice < product.regularPrice && (
+                              <h5>
+                                SALE! $
+                                {Math.ceil(
+                                  product.regularPrice - product.salePrice
+                                ).toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })}{" "}
+                                OFF!
+                              </h5>
+                            )}
+                          <p
+                            className={`text-lg ${
+                              product.onSale &&
+                              product.salePrice < product.regularPrice &&
+                              "line-through text-sm"
+                            }`}
+                          >
+                            <strong>Regular Price:</strong> $
+                            {Number(product.regularPrice).toLocaleString(
+                              "en-US",
+                              {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              }
+                            )}
+                          </p>
+                          {product.onSale &&
+                            product.salePrice < product.regularPrice && (
+                              <p className="text-lg">
+                                <strong>Sale Price: </strong> $
+                                {Number(product.salePrice).toLocaleString(
+                                  "en-US",
+                                  {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                  }
+                                )}
+                              </p>
+                            )}
+                        </div>
+                      )}
                       {findCart(product.sku) ? (
                         <button
                           className="button w-54 flex gap-2 items-center text-lg"

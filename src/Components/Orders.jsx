@@ -43,7 +43,7 @@ const Orders = () => {
   let reversedOrders = [...orders].reverse();
 
   const toggleReveal = (index) => {
-    setItemsList(reversedOrders[index].orderItems);
+    setReveal(!reveal);
   };
 
   if (isLoading) {
@@ -51,66 +51,72 @@ const Orders = () => {
   }
 
   return (
-    <div>
-      <h1>Orders</h1>
+    <div className="min-h-[50vh]">
+      <h1 className="ml-16 mt-16">Current Orders</h1>
       {reversedOrders ? (
         reversedOrders.map((item, i) => {
           return (
-            <div key={i} className="m-16 border-b pb-12 border">
-              <div>
-                <h2>
-                  Ordered at: {new Date(item.orderDate).toLocaleString("en-US")}
+            <div key={i} className="m-16 border-b pb-12">
+              <div className="flex flex-col gap-2 w-96">
+                <h2 className="border-b w-[90%]">
+                  Ordered on:{" "}
+                  {new Date(item.orderDate).toLocaleDateString("en-US")}
                 </h2>
                 <p>
-                  Order Total: $
-                  {Number(item.orderTotal).toFixed(2).toLocaleString("en-US")}
+                  <strong>Order Total:</strong> $
+                  {Number(item.orderTotal).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </p>
                 {item.orderSavings > 0 && (
-                  <p>Order Savings: {item.orderSavings.toFixed(2)}</p>
+                  <p>
+                    <strong>Order Savings:</strong> $
+                    {Number(item.orderSavings).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </p>
                 )}
-                <p>Order #: {item.orderNumber}</p>
-                <p>Status: "{item.orderStatus}"</p>
                 <p>
-                  Items:{" "}
-                  <button
-                    onClick={() => {
-                      toggleReveal(i);
-                      setReveal(!reveal);
-                    }}
-                    className="button w-44"
-                  >
-                    See Products
-                  </button>
+                  <strong>Order #:</strong> {item.orderNumber}
                 </p>
+                <p>
+                  <strong>Status:</strong> "{item.orderStatus}"
+                </p>
+                <p>
+                  <strong>Quantity Total:</strong> {item.orderItems.length}
+                </p>
+                <h3 className="mt-8">Items Purchased: </h3>
               </div>
-              <div
-              // className={` ${reveal ? "block" : "hidden"}`}
-              >
-                {itemsList ? (
-                  itemsList.map((orderItem, i) => {
+              <div className="p-4 grid grid-cols-3 gap-4 m-4 ">
+                {item.orderItems ? (
+                  item.orderItems.map((orderItem, i) => {
                     return (
-                      <div
-                        key={i}
-                        // className={` ${
-                        //   itemsList[i] && reveal ? "block" : "hidden"
-                        // }`}
-                      >
-                        <div className={`${reveal ? "block" : "hidden"}`}>
+                      <div key={i} className="flex justify-center p-4">
+                        <div className="flex flex-col items-center">
                           <img src={orderItem.product.image} alt="" />
-                          <ul>
-                            <li>orderItem sku: {orderItem.product.sku}</li>
-                            <li>orderItem: {orderItem.product.name}</li>
+                          <ul className="my-8 flex flex-col gap-2 w-full">
+                            <li className="text-xl font-bold w-96">
+                              {orderItem.product.name}
+                            </li>
                             <li>
-                              Price: $
-                              {orderItem.product.totalPrice.toLocaleString(
-                                "en-US"
-                              )}{" "}
+                              <strong> Price Paid:</strong> $
+                              {Number(
+                                orderItem.product.totalPrice
+                              ).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              })}{" "}
                               {orderItem.product.regularPrice >
                                 orderItem.product.salePrice && (
                                 <span className="text-green-500">SALE!</span>
                               )}
                             </li>
-                            <li>Quantity: {orderItem.product.quantity}</li>
+                            <li>
+                              <strong>Quantity:</strong>{" "}
+                              {orderItem.product.quantity}
+                            </li>
                           </ul>
                         </div>
                       </div>

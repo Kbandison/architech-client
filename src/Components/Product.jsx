@@ -13,6 +13,7 @@ import Modal2 from "./Modal2";
 import { BsCartDash, BsCartPlus } from "react-icons/bs";
 import { IoIosHeartDislike } from "react-icons/io";
 import ImageSlider from "./ImageSlider";
+import { IoStarSharp, IoStarHalfSharp } from "react-icons/io5";
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -58,6 +59,18 @@ const Product = () => {
   }, [imgCarousel, products.images]);
   // console.log(products);
 
+  const split = String(products.customerReviewAverage).split(".");
+
+  const starRating = [];
+
+  for (let i = 0; i < split[0]; i++) {
+    starRating.push(<IoStarSharp className="text-yellow-500" />);
+  }
+
+  if (split[1] >= "5" && split[1] <= "9") {
+    starRating.push(<IoStarHalfSharp className="text-yellow-500" />);
+  }
+
   const findWish = (sku) => {
     return wishlist.find((wish) => wish.sku === sku);
   };
@@ -78,13 +91,18 @@ const Product = () => {
               <strong className="pr-2">Model #:</strong> {products.modelNumber}
             </p>
             <p className="text-xl">
-              <strong className="pr-2">sku:</strong> {products.sku}
+              <strong className="pr-2">SKU:</strong> {products.sku}
             </p>
           </div>
           {products.customerReviewAverage && (
             <div className="flex gap-8">
-              <p>
+              <p className="flex items-center gap-1">
                 <strong className="pr-2">Review Avg:</strong>{" "}
+                {starRating.map((star, i) => (
+                  <div key={i} className="text-lg">
+                    {star}
+                  </div>
+                ))}
                 {products.customerReviewAverage}/5
               </p>
               <p>
@@ -109,6 +127,7 @@ const Product = () => {
                 products.images.map((image, index) => {
                   return (
                     <div
+                      key={index}
                       className={`border w-[1vw] h-[.5vh] rounded-full cursor-pointer ${
                         imgCarousel === index ? "bg-black" : "bg-gray-400"
                       }`}
@@ -119,42 +138,67 @@ const Product = () => {
             </div>
           </div>
           <div className="flex mt-4 flex-col">
-            <div className=" mb-72">
-              <p
-                className={`text-2xl ${
-                  products.onSale &&
-                  products.salePrice < products.regularPrice &&
-                  "line-through text-xl"
-                }`}
-              >
-                <strong>Regular Price:</strong> $
-                {Number(products.regularPrice).toLocaleString("en-US")}
-              </p>
-              {products.onSale &&
-                products.salePrice < products.regularPrice && (
-                  <>
-                    <h3 className="border rounded-md w-32 text-center py-1 my-1">
+            {user && user.user.scope !== "customer" ? (
+              <div className="mb-72">
+                <p className="text-xl line-through">
+                  <strong>Regular Price:</strong> $
+                  {Number(products.regularPrice).toLocaleString("en-US")}
+                </p>
+                {
+                  <p className="text-2xl">
+                    <strong>Employee Price: </strong> $
+                    {Number(products.regularPrice * 0.65)
+                      // .toFixed(2)
+                      .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                  </p>
+                }
+              </div>
+            ) : (
+              <div className=" mb-72">
+                {products.onSale &&
+                  products.salePrice < products.regularPrice && (
+                    <h4>
                       SAVE $
                       {Math.ceil(
                         products.regularPrice - products.salePrice
-                      ).toLocaleString("en-US")}{" "}
-                    </h3>
-                    <p className="text-3xl">
+                      ).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </h4>
+                  )}
+                <p
+                  className={`text-2xl ${
+                    products.onSale &&
+                    products.salePrice < products.regularPrice &&
+                    "line-through text-lg"
+                  }`}
+                >
+                  <strong>Regular Price:</strong> $
+                  {Number(products.regularPrice).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+                {products.onSale &&
+                  products.salePrice < products.regularPrice && (
+                    <p className="text-2xl">
                       <strong>Sale Price: </strong> $
-                      {Number(products.salePrice).toLocaleString("en-US")}
+                      {Number(products.salePrice).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </p>
-                  </>
-                )}
-
-              {/* {products.onSale &&
-                products.salePrice < products.regularPrice && (
-                  
-                )} */}
-            </div>
+                  )}
+              </div>
+            )}
             <div className="flex flex-col items-end scale-[120%]">
               {findCart(products.sku) ? (
                 <button
-                  className="button w-48 h-12 flex gap-2 items-center text-lg"
+                  className="button w-48 h-12 flex gap-2 items-center text-md"
                   onClick={
                     user
                       ? async () => {

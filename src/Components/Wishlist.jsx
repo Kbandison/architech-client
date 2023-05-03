@@ -98,7 +98,10 @@ const Wishlist = () => {
                   </h4>
                   <p className="text-xl">
                     <strong>Price:</strong> $
-                    {Number(item.price).toLocaleString("en-US")}
+                    {Number(item.price).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </p>
                   <div className=" flex flex-col items-center gap-1">
                     {findCart(item.sku) ? (

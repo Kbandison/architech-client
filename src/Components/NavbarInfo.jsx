@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser, reset } from "../features/auth/authSlice";
 import { getUserCart } from "../features/cart/cartSlice";
 import { getWishlist } from "../features/wishlist/wishSlice";
+import FooterPage from "../Pages/FooterPage";
 
 const NavbarInfo = () => {
   const [nav, setNav] = useState(false);
@@ -30,7 +31,6 @@ const NavbarInfo = () => {
 
   useEffect(() => {
     if (user || isLoggedIn) {
-      console.log("logged in", isLoggedIn);
       const timeout = setTimeout(() => {
         setIsLoggedIn((prevState) => prevState === false);
         dispatch(logoutUser());
@@ -38,7 +38,6 @@ const NavbarInfo = () => {
       }, 900000);
       return () => {
         clearTimeout(timeout);
-        console.log("timeout cleared");
       };
     }
   }, [user, isLoggedIn, dispatch, navigate]);
@@ -62,7 +61,7 @@ const NavbarInfo = () => {
   }, [cart, dispatch]);
 
   return (
-    <>
+    <div>
       <nav className="flex justify-between items-center text-1xl font-bold p-6 sticky top-0 bg-[#1c2321] z-50">
         {/* <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png"
@@ -186,7 +185,7 @@ const NavbarInfo = () => {
         </div>
       </nav>
       <Outlet context={setIsLoggedIn} />
-    </>
+    </div>
   );
 };
 

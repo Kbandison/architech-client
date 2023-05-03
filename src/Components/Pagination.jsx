@@ -24,7 +24,9 @@ const Pagination = ({
           Prev Page
         </button>
       )}
-      <h3>Page: {currentPage}</h3>
+      <h3>
+        Page: {currentPage} of {Math.ceil(products.length / productsPerPage)}
+      </h3>
       {currentPage < products.length / productsPerPage && (
         <button
           className="button text-lg font-bold "

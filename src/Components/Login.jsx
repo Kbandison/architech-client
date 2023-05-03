@@ -29,7 +29,6 @@ const Login = () => {
 
     if (isSuccess) {
       navigate("/");
-      console.log("isSuccess");
     }
 
     dispatch(reset());
@@ -50,7 +49,6 @@ const Login = () => {
     e.preventDefault();
     setIsLoggedIn(true);
     dispatch(loginUser(loginData));
-    console.log("handleSubmit");
   };
 
   if (isLoading) {
