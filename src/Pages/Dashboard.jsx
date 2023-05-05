@@ -30,10 +30,10 @@ const Dashboard = () => {
   const random2 = random1 + 5;
 
   useEffect(() => {
-    prod && setMainCarousel(prod.sort().slice(15, 20));
+    prod && setMainCarousel(prod.sort().slice(random1, random2));
     console.log("Random number", random1);
     console.log("Random plus 5", random2);
-  }, [dispatch, prod, random1]);
+  }, [dispatch, prod, random1, random2, mainCarousel.length]);
 
   useEffect(() => {
     const interval = setInterval(() => {
