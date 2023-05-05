@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { reset, getAUser } from "../features/users/userSlice";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
-import Spinner from "./Spinner";
 import { logoutUser } from "../features/auth/authSlice";
 
 const UpdateAccount = ({ user, update, setUpdate }) => {
@@ -65,8 +63,6 @@ const UpdateAccount = ({ user, update, setUpdate }) => {
   };
 
   const updateUser = async (id, user) => {
-    // setStatusChange(status);
-
     await axios.put(
       `${process.env.REACT_APP_ENDPOINT}/users/update/${id}`,
       user

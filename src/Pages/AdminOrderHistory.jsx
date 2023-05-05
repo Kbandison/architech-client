@@ -6,7 +6,6 @@ import AdminOrdersTable from "../Components/AdminOrdersTable";
 
 const AdminOrderHistory = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
   const { history, isLoading, isError, message } = useSelector(
     (state) => state.history
   );

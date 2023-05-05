@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders, reset } from "../features/orders/ordersSlice";
 import Spinner from "./Spinner";
 import { logoutUser } from "../features/auth/authSlice";
-import { useState } from "react";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -14,10 +13,6 @@ const Orders = () => {
   const { orders, isLoading, isError, message } = useSelector(
     (state) => state.orders
   );
-
-  const [itemsList, setItemsList] = useState([]);
-  const [index, setIndex] = useState(0);
-  const [reveal, setReveal] = useState(false);
 
   useEffect(() => {
     if (isError) {
@@ -41,10 +36,6 @@ const Orders = () => {
   }, [user, navigate, dispatch, isError, message]);
 
   let reversedOrders = [...orders].reverse();
-
-  const toggleReveal = (index) => {
-    setReveal(!reveal);
-  };
 
   if (isLoading) {
     return <Spinner />;
@@ -85,7 +76,10 @@ const Orders = () => {
                   <strong>Status:</strong> "{item.orderStatus}"
                 </p>
                 <p>
-                  <strong>Quantity Total:</strong> {item.orderItems.length}
+                  <strong>Quantity Total:</strong>{" "}
+                  {item.orderItems &&
+                    item.orderItems.length > 0 &&
+                    item.orderItems.length}
                 </p>
                 <h3 className="mt-8">Items Purchased: </h3>
               </div>

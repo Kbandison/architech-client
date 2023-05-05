@@ -1,14 +1,8 @@
-import React from "react";
-
-const OrderItems = ({ orderItem, reveal, index }) => {
+const OrderItems = ({ orderItem, reveal }) => {
   console.log("OrderItems", orderItem);
   return (
     <div>
-      <div
-      // className={` ${
-      //   itemsList[i] && reveal ? "block" : "hidden"
-      // }`}
-      >
+      <div>
         <div className={`${reveal ? "block" : "hidden"}`}>
           <img src={orderItem.product.image} alt="" />
           <ul>

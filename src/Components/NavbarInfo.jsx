@@ -5,8 +5,6 @@ import { BsArrowRightShort } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser, reset } from "../features/auth/authSlice";
 import { getUserCart } from "../features/cart/cartSlice";
-import { getWishlist } from "../features/wishlist/wishSlice";
-import FooterPage from "../Pages/FooterPage";
 
 const NavbarInfo = () => {
   const [nav, setNav] = useState(false);
@@ -16,13 +14,11 @@ const NavbarInfo = () => {
 
   const { user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
-  const { wishlist } = useSelector((state) => state.wishlist);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     dispatch(getUserCart());
-    dispatch(getWishlist());
 
     return () => {
       dispatch(reset());
@@ -63,11 +59,6 @@ const NavbarInfo = () => {
   return (
     <div>
       <nav className="flex justify-between items-center text-1xl font-bold p-6 sticky top-0 bg-[#1c2321] z-50">
-        {/* <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png"
-          alt=""
-          className="h-12 w-14 "
-        /> */}
         <h1>
           <Link to="/" className="link">
             ARCHI-TECH.

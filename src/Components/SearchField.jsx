@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 const SearchField = ({ handleSearch, results, search, setSearch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,10 +37,6 @@ const SearchField = ({ handleSearch, results, search, setSearch }) => {
           onChange={handleSearch}
           className="w-4/5 border-b bg-inherit p-4 text-3xl input text-center"
         />
-        {/* <div>
-          <input type="checkbox" name="" id="samsung" />
-          <label htmlFor="samsung">Samsung</label>
-        </div> */}
       </form>
     </div>
   );

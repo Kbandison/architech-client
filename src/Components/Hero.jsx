@@ -14,7 +14,7 @@ const Hero = () => {
             Affordable Prices for{" "}
             <span className="text-[#E4FDE1] underline decoration-solid decoration-[#DE3C4B]">
               <Typed
-                strings={["TV's", "Consoles.", "Cameras."]}
+                strings={["Samsung", "Sunbrite.", "Insignia."]}
                 typedSpeed={180}
                 backSpeed={180}
                 loop
@@ -24,7 +24,7 @@ const Hero = () => {
           </p>
         </div>
         <p className="md:text-2xl text-xl font-bold pt-12">
-          An all-out store for all your technological needs!
+          An all-out store for all your TV needs!
         </p>
         <Link to="/products">
           <button className="mt-8 mx-auto py-4 px-10 rounded-lg border font-bold md:text-2xl sm:text-xl text-md text-[#E4FDE1] border-[#DE3C4B]">

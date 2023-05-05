@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { loginUser, logoutUser, reset } from "../features/auth/authSlice";
+import { loginUser, reset } from "../features/auth/authSlice";
 import Spinner from "./Spinner";
 import { useOutletContext } from "react-router-dom";
 

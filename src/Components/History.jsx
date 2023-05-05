@@ -1,16 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getUserHistory, reset } from "../features/history/historySlice";
 
 const History = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.auth);
-  const { history, isLoading, isError, message } = useSelector(
-    (state) => state.history
-  );
+  const { history, isError, message } = useSelector((state) => state.history);
 
   useEffect(() => {
     if (isError) {

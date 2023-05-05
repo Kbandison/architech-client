@@ -1,8 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUsers, reset } from "../features/users/userSlice";
-import { getAllOrders, getUserOrder } from "../features/orders/ordersSlice";
-import { updateAUser, getAUser } from "../features/users/userSlice";
+import { getAUser } from "../features/users/userSlice";
 import { deleteUser } from "../features/users/userSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,8 +15,6 @@ const UserAccounts = () => {
   const { users, isLoading, isError, message } = useSelector(
     (state) => state.users
   );
-
-  const { orders } = useSelector((state) => state.orders);
 
   const handleGetUser = async (id) => {
     await dispatch(getAUser(id));

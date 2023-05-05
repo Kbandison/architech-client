@@ -1,6 +1,6 @@
 import React from "react";
 
-const AdminOrdersTable = ({ orders, history, count, status, update }) => {
+const AdminOrdersTable = ({ orders, count, update }) => {
   return (
     <div>
       <table className="table">
@@ -44,8 +44,10 @@ const AdminOrdersTable = ({ orders, history, count, status, update }) => {
                     {item.address && item.address.zip}
                   </td>
                   <td>{item.phoneNumber}</td>
-                  {status ? (
-                    <td>
+                  <td>
+                    {item.orderStatus === "delivered" ? (
+                      "Delivered"
+                    ) : (
                       <select
                         name="status"
                         id="status"
@@ -59,10 +61,8 @@ const AdminOrdersTable = ({ orders, history, count, status, update }) => {
                         <option value="shipped">Shipped</option>
                         <option value="delivered">Delivered</option>
                       </select>
-                    </td>
-                  ) : (
-                    <td>{item.orderStatus}</td>
-                  )}
+                    )}
+                  </td>
                 </tr>
               );
             })

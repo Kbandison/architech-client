@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getAllOrders,
-  shipped,
-  delivered,
-  reset,
-} from "../features/orders/ordersSlice";
+import { getAllOrders, reset } from "../features/orders/ordersSlice";
 import { addHistory } from "../features/history/historySlice";
 import Spinner from "./Spinner";
 import axios from "axios";
@@ -17,8 +12,6 @@ const AdminOrders = () => {
   const { orders, isLoading, isError, message } = useSelector(
     (state) => state.orders
   );
-
-  const [statusChange, setStatusChange] = useState(true);
 
   useEffect(() => {
     if (isError) {
@@ -33,8 +26,6 @@ const AdminOrders = () => {
   }, [isError, message, dispatch]);
 
   const update = async (id, status) => {
-    // setStatusChange(status);
-
     await axios.put(
       `${process.env.REACT_APP_ENDPOINT}/orders/update-status/${id}`,
       {
@@ -64,7 +55,6 @@ const AdminOrders = () => {
         orders={reversedOrders}
         count={`# of Orders: ${orders && orders.length}`}
         update={update}
-        status={statusChange}
       />
     </div>
   );

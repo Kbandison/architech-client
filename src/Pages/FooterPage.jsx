@@ -13,30 +13,55 @@ const FooterPage = () => {
           <div>
             <h3 className="mb-2">Home</h3>
             <div className="flex flex-col gap-5">
-              <p>Dashboard</p>
+              <p
+                className="hover:text-white cursor-pointer"
+                onClick={() => navigate("/")}
+              >
+                Dashboard
+              </p>
             </div>
           </div>
           <div>
             <h3 className="mb-2">Products</h3>
             <div className="flex flex-col gap-5">
-              <p>Products</p>
+              <p
+                className="hover:text-white cursor-pointer"
+                onClick={() => navigate("/products")}
+              >
+                Products
+              </p>
             </div>
           </div>
           <div>
             <h3 className="mb-2">My Account</h3>
             <div className="flex flex-col gap-5">
-              <p>Info</p>
-              <p>Orders</p>
-              <p>Order History</p>
+              <p
+                className="hover:text-white cursor-pointer"
+                onClick={() => navigate("/account")}
+              >
+                Info
+              </p>
+              <p
+                className="hover:text-white cursor-pointer"
+                onClick={() => navigate("/account/orders")}
+              >
+                Orders
+              </p>
+              <p
+                className="hover:text-white cursor-pointer"
+                onClick={() => navigate("/account/order-history")}
+              >
+                Order History
+              </p>
             </div>
           </div>
           <div>
             <h3 className="mb-2">Contact:</h3>
             <div className="flex flex-col gap-5">
+              <p>1234 Atlanta HWY,</p>
               <p>Atlanta, GA, 30303</p>
               <p>support@atadmin.com</p>
               <p>(678)-555-9876</p>
-              <p>Products</p>
             </div>
           </div>
         </div>

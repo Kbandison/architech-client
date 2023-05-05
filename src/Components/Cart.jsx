@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "./Spinner";
 import {
@@ -12,7 +12,6 @@ import {
 } from "../features/cart/cartSlice";
 import { createOrder } from "../features/orders/ordersSlice";
 import Modal from "./Modal";
-import { logoutUser } from "../features/auth/authSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();

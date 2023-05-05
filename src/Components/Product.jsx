@@ -2,18 +2,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { getItem, reset } from "../features/products/productSlice";
 import Spinner from "./Spinner";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { addToCart, clearItem, getUserCart } from "../features/cart/cartSlice";
 import {
   addToWishlist,
   removeFromWishlist,
   getWishlist,
 } from "../features/wishlist/wishSlice";
-import Modal2 from "./Modal2";
 import { BsCartDash, BsCartPlus } from "react-icons/bs";
-import { IoIosHeartDislike } from "react-icons/io";
-import ImageSlider from "./ImageSlider";
 import { IoStarSharp, IoStarHalfSharp } from "react-icons/io5";
+import { IoIosHeartDislike, IoIosHeartEmpty } from "react-icons/io";
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -25,9 +23,6 @@ const Product = () => {
   const { products, isLoading, isError, message } = useSelector(
     (state) => state.products
   );
-
-  const [cartModal, setCartModal] = useState(false);
-  const [wishModal, setWishModal] = useState(false);
 
   const [imgCarousel, setImgCarousel] = useState(0);
 
@@ -57,7 +52,6 @@ const Product = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, [imgCarousel, products.images]);
-  // console.log(products);
 
   const split = String(products.customerReviewAverage).split(".");
 
@@ -70,6 +64,26 @@ const Product = () => {
   if (split[1] >= "5" && split[1] <= "9") {
     starRating.push(<IoStarHalfSharp className="text-yellow-500" />);
   }
+
+  const handleRemoveCart = async (sku) => {
+    await dispatch(clearItem(sku));
+    await dispatch(getUserCart());
+  };
+
+  const handleAddCart = async (sku) => {
+    await dispatch(addToCart(sku));
+    await dispatch(getUserCart());
+  };
+
+  const handleRemoveWish = async (sku) => {
+    await dispatch(removeFromWishlist(sku));
+    await dispatch(getWishlist());
+  };
+
+  const handleAddWish = async (sku) => {
+    await dispatch(addToWishlist(sku));
+    await dispatch(getWishlist());
+  };
 
   const findWish = (sku) => {
     return wishlist.find((wish) => wish.sku === sku);
@@ -147,12 +161,13 @@ const Product = () => {
                 {
                   <p className="text-2xl">
                     <strong>Employee Price: </strong> $
-                    {Number(products.regularPrice * 0.65)
-                      // .toFixed(2)
-                      .toLocaleString("en-US", {
+                    {Number(products.regularPrice * 0.65).toLocaleString(
+                      "en-US",
+                      {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
-                      })}
+                      }
+                    )}
                   </p>
                 }
               </div>
@@ -198,14 +213,9 @@ const Product = () => {
             <div className="flex flex-col items-end scale-[120%]">
               {findCart(products.sku) ? (
                 <button
-                  className="button w-48 h-12 flex gap-2 items-center text-md"
-                  onClick={
-                    user
-                      ? async () => {
-                          await dispatch(clearItem(products.sku));
-                          await dispatch(getUserCart());
-                        }
-                      : () => navigate("/login")
+                  className="button w-54 h-12 flex gap-2 items-center text-md"
+                  onClick={() =>
+                    user ? handleRemoveCart(products.sku) : navigate("/login")
                   }
                 >
                   <BsCartDash className="scale-[130%] text-red-500" /> Remove
@@ -213,13 +223,10 @@ const Product = () => {
                 </button>
               ) : (
                 <button
-                  className="button w-48 h-12 flex gap-2 items-center text-lg"
-                  onClick={
+                  className="button w-48 h-12 flex gap-2 items-center text-md"
+                  onClick={() =>
                     user
-                      ? async () => {
-                          await dispatch(addToCart(products.sku));
-                          await dispatch(getUserCart());
-                        }
+                      ? handleAddCart(products.sku)
                       : () => navigate("/login")
                   }
                 >
@@ -229,35 +236,31 @@ const Product = () => {
               )}
               {findWish(products.sku) ? (
                 <button
-                  className="button w-48 text-lg"
-                  onClick={
+                  className="button w-54 text-md flex gap-2 items-center"
+                  onClick={() =>
                     user
-                      ? async () => {
-                          await dispatch(removeFromWishlist(products.sku));
-                          await dispatch(getWishlist());
-                        }
+                      ? handleRemoveWish(products.sku)
                       : () => navigate("/login")
                   }
                 >
+                  <IoIosHeartDislike className="scale-[150%] text-red-500" />
                   Remove Wish
                 </button>
               ) : (
                 <button
-                  className="button w-48 text-lg"
-                  onClick={
+                  className="button w-54 text-md flex gap-2 items-center"
+                  onClick={() =>
                     user
-                      ? async () => {
-                          await dispatch(addToWishlist(products.sku));
-                          await dispatch(getWishlist());
-                        }
+                      ? handleAddWish(products.sku)
                       : () => navigate("/login")
                   }
                 >
+                  <IoIosHeartEmpty className="scale-[150%] text-red-500" />
                   Add to Wishlist
                 </button>
               )}
               <button
-                className="button w-48 text-lg"
+                className="button w-48 text-md"
                 onClick={() => navigate("/products")}
               >
                 Products Page
@@ -276,15 +279,6 @@ const Product = () => {
           </div>
         </div>
       </div>
-      <div></div>
-      <Modal2
-        cartOpen={cartModal}
-        wishOpen={wishModal}
-        onClose={() => {
-          setCartModal(false);
-          setWishModal(false);
-        }}
-      />
     </div>
   );
 };

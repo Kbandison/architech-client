@@ -2,37 +2,28 @@ import React from "react";
 import Hero from "../Components/Hero";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useMemo } from "react";
-import Spinner from "../Components/Spinner";
 import ProductCard from "../Components/CarouselCard";
 import {
   HiOutlineArrowCircleLeft,
   HiOutlineArrowCircleRight,
 } from "react-icons/hi";
-import { getProducts, reset } from "../features/products/productSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
 
-  const { products, isLoading, isError, message } = useSelector(
-    (state) => state.products
-  );
+  const { products } = useSelector((state) => state.products);
 
   const [mainCarousel, setMainCarousel] = useState([]);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
   const prod = [...products];
 
-  // const prod = useMemo(() => {
-  //   dispatch(getProducts());
-  //   return products && products.length > 0 && products.map((item) => item);
-  // }, [dispatch]);
-
   const random1 = useMemo(() => {
-    const min = 1;
+    const min = 7;
     const max = prod && prod.length - 6;
     const random = Math.floor(Math.random() * (max - min) + min);
 
-    return random <= 0 ? 1 : random;
+    return random <= 0 ? 5 : random;
   }, [prod]);
 
   const random2 = random1 + 5;
@@ -51,10 +42,6 @@ const Dashboard = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, [mainCarousel.length, carouselIndex]);
-
-  // if (isLoading) {
-  //   return <Spinner />;
-  // }
 
   return (
     <div className="">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getWishlist,
@@ -9,7 +9,6 @@ import {
 import { logoutUser } from "../features/auth/authSlice";
 import Spinner from "./Spinner";
 import { addToCart, clearItem, getUserCart } from "../features/cart/cartSlice";
-import Modal2 from "./Modal2";
 import Pagination from "./Pagination";
 import { BsCartDash, BsCartPlus } from "react-icons/bs";
 import { IoIosHeartDislike } from "react-icons/io";
@@ -24,11 +23,8 @@ const Wishlist = () => {
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
 
-  const [cartModal, setCartModal] = useState(false);
-  const [RemoveWishModal, setRemoveWishModal] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(1);
-  const [wishesPerPage, setWishesPerPage] = useState(5);
+  const [wishesPerPage] = useState(10);
 
   useEffect(() => {
     if (isError) {
@@ -46,7 +42,7 @@ const Wishlist = () => {
     return () => {
       dispatch(reset());
     };
-  }, [cartModal, dispatch, isError, message, navigate]);
+  }, [dispatch, isError, message, navigate]);
 
   let reversedWishes = wishlist && [...wishlist].reverse();
 
@@ -60,15 +56,18 @@ const Wishlist = () => {
 
   const handleAddCart = async (sku) => {
     await dispatch(addToCart(sku));
-    await dispatch(removeFromWishlist(sku));
-    await dispatch(getWishlist());
-    // setCartModal(true);
+    // await dispatch(removeFromWishlist(sku));
+    await dispatch(getUserCart());
+  };
+
+  const handleRemoveCart = async (sku) => {
+    await dispatch(clearItem(sku));
+    await dispatch(getUserCart());
   };
 
   const handleRemoveWish = async (sku) => {
     await dispatch(removeFromWishlist(sku));
     await dispatch(getWishlist());
-    // setRemoveWishModal(true);
   };
 
   if (isLoading) {
@@ -107,14 +106,7 @@ const Wishlist = () => {
                     {findCart(item.sku) ? (
                       <button
                         className="button w-54 flex gap-2 items-center text-lg"
-                        onClick={
-                          user
-                            ? async () => {
-                                await dispatch(clearItem(item.sku));
-                                await dispatch(getUserCart());
-                              }
-                            : () => navigate("/login")
-                        }
+                        onClick={() => handleRemoveCart(item.sku)}
                       >
                         <BsCartDash className="scale-[130%] text-red-500" />{" "}
                         <strong>Remove Item</strong>
@@ -122,14 +114,7 @@ const Wishlist = () => {
                     ) : (
                       <button
                         className="button w-54 flex gap-2 items-center text-lg"
-                        onClick={
-                          user
-                            ? async () => {
-                                await dispatch(addToCart(item.sku));
-                                await dispatch(getUserCart());
-                              }
-                            : () => navigate("/login")
-                        }
+                        onClick={() => handleAddCart(item.sku)}
                       >
                         <BsCartPlus className="scale-[130%] text-green-500" />{" "}
                         <strong>Add to Cart</strong>
@@ -160,13 +145,6 @@ const Wishlist = () => {
           products={wishlist}
         />
       )}
-      <Modal2
-        cartOpen={cartModal}
-        removeWish={RemoveWishModal}
-        onClose={() => {
-          setCartModal(false);
-        }}
-      />
     </div>
   );
 };

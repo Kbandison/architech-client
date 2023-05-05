@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteUser } from "../features/users/userSlice";
 import UpdateAccount from "./UpdateAccount";
@@ -40,35 +40,35 @@ const Account = ({ user }) => {
             </p>
           )}
         </div>
-        <div className="m-16 p-8 border rounded-2xl flex flex-col w-[30%] items-center">
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <div>
+        <div className="p-16 m-16 border rounded-2xl flex flex-col w-[30%] items-center">
+          <div className="flex flex-col gap-4  ">
+            <div className="flex justify-between gap-4">
+              <div className="w-1/2">
                 <h3 className="">Email: </h3>
                 <p>{user.email}</p>
               </div>
-              <div>
+              <div className="w-1/2">
                 <h3 className="">Phone #: </h3>
                 <p className="text-xl">{user.phoneNumber}</p>
               </div>
             </div>
             <h2 className="border-b pb-2">Address: </h2>
-            <div className="flex justify-between">
-              <div>
+            <div className="flex justify-evenly gap-4">
+              <div className="w-1/2">
                 <h3 className="">Street: </h3>
                 <p className="text-xl">{user.address.street}</p>
               </div>
-              <div>
+              <div className="w-1/2">
                 <h3 className="">City: </h3>
                 <p className="text-xl">{user.address.city}</p>
               </div>
             </div>
-            <div className="flex justify-between">
-              <div>
+            <div className="flex gap-4 justify-center">
+              <div className="w-1/2">
                 <h3 className="">State: </h3>
                 <p className="text-xl">{user.address.state}</p>
               </div>
-              <div>
+              <div className="w-1/2">
                 <h3 className="">Zip: </h3>
                 <p className="text-xl">{user.address.zip}</p>
               </div>

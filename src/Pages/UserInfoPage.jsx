@@ -1,14 +1,6 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import UserInfo from "../Components/UserInfo";
-import { getAUser } from "../features/users/userSlice";
-import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const UserInfoPage = () => {
-  const dispatch = useDispatch();
-  const { id } = useParams();
-
   const { user } = useSelector((state) => state.users);
 
   return (

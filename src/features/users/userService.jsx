@@ -3,77 +3,31 @@ import axios from "axios";
 const userData = `${process.env.REACT_APP_ENDPOINT}/users`;
 
 const getUsers = async (token) => {
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // };
-
-  const response = await axios.get(
-    userData
-    // config
-  );
+  const response = await axios.get(userData);
 
   return response.data;
 };
 
 const getUser = async (id, token) => {
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // };
-
-  const response = await axios.get(
-    `${userData}/user/${id}`
-    // config
-  );
+  const response = await axios.get(`${userData}/user/${id}`);
 
   return response.data;
 };
 
 const updateUser = async (id, user, token) => {
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // };
-
-  const response = await axios.put(
-    `${userData}/users/update/${id}`,
-    user
-    // config
-  );
+  const response = await axios.put(`${userData}/users/update/${id}`, user);
 
   return response.data;
 };
 
 const deleteUser = async (id, token) => {
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // };
-
-  const response = await axios.delete(
-    `${userData}/delete/${id}`
-    // config
-  );
+  const response = await axios.delete(`${userData}/delete/${id}`);
 
   return response.data;
 };
 
 const deleteAllUsers = async (token) => {
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // };
-
-  const response = await axios.delete(
-    `${userData}/users/delete-all`
-    // config
-  );
+  const response = await axios.delete(`${userData}/users/delete-all`);
 
   return response.data;
 };

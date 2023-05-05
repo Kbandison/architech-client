@@ -1,51 +1,38 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  getAllOrders,
-  reset,
-  deleteOrder,
-} from "../features/orders/ordersSlice";
+import { useDispatch } from "react-redux";
+import { getAllOrders, deleteOrder } from "../features/orders/ordersSlice";
 import { addHistory } from "../features/history/historySlice";
 import axios from "axios";
-import { useState, useEffect } from "react";
 
 const UserOrders = ({ order }) => {
   const reversedOrder = [...order].reverse();
-  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
-  const { orders } = useSelector((state) => state.orders);
+  const refreshPage = () => {
+    window.location.reload();
+  };
 
-  const [trigger, setTrigger] = useState(false);
+  const update = async (id, status) => {
+    await axios.put(
+      `${process.env.REACT_APP_ENDPOINT}/orders/update-status/${id}`,
+      {
+        orderStatus: status,
+      }
+    );
 
-  // const [statusChange, setStatusChange] = useState(true);
+    if (status === "delivered") {
+      await dispatch(addHistory(id));
+      refreshPage();
+    }
 
-  // const update = async (id, status) => {
-  //   // setStatusChange(status);
-
-  //   await axios.put(
-  //     `${process.env.REACT_APP_ENDPOINT}/orders/update-status/${id}`,
-  //     {
-  //       orderStatus: status,
-  //     }
-  //   );
-
-  //   if (status === "delivered") {
-  //     await dispatch(addHistory(id));
-  //   }
-
-  //   await dispatch(getAllOrders());
-  // };
-
-  useEffect(() => {
-    console.log("trigger", trigger);
-  }, [dispatch, trigger]);
+    await dispatch(getAllOrders());
+    refreshPage();
+  };
 
   const handleDelete = async (id) => {
-    setTrigger((prev) => true);
     await dispatch(deleteOrder(id));
     await dispatch(getAllOrders());
+    refreshPage();
   };
 
   return (
@@ -75,7 +62,7 @@ const UserOrders = ({ order }) => {
                   })}
                 </p>
                 <p>Order Status: {order.orderStatus}</p>
-                {/* <p>
+                <p>
                   <select
                     name="status"
                     id="status"
@@ -89,7 +76,7 @@ const UserOrders = ({ order }) => {
                     <option value="shipped">Shipped</option>
                     <option value="delivered">Delivered</option>
                   </select>
-                </p> */}
+                </p>
                 <div className="flex justify-center">
                   <button
                     className="button"

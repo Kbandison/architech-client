@@ -4,7 +4,6 @@ import { getUserOrder } from "../features/orders/ordersSlice";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import Spinner from "../Components/Spinner";
 
 const UserOrdersPage = () => {
   const dispatch = useDispatch();
@@ -24,7 +23,6 @@ const UserOrdersPage = () => {
     };
     getUserOrders();
   }, [dispatch, id]);
-  // console.log(userOrders);
 
   return (
     <div className="w-full">
