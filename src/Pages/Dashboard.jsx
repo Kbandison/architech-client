@@ -13,26 +13,27 @@ const Dashboard = () => {
 
   const { products } = useSelector((state) => state.products);
 
-  const [mainCarousel, setMainCarousel] = useState([]);
+  const [mainCarousel, setMainCarousel] = useState(products);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
-  const prod = [...products];
+  // const prod = [...products];
+  const prod = useMemo(() => products && [...products], [products]);
 
   const random1 = useMemo(() => {
     const min = 7;
     const max = prod && prod.length - 6;
     const random = Math.floor(Math.random() * (max - min) + min);
 
-    return random <= 0 ? 5 : random;
+    return random < 0 ? 2 : random;
   }, [prod]);
 
   const random2 = random1 + 5;
 
   useEffect(() => {
-    prod && setMainCarousel(prod.sort().slice(random1, random2));
+    prod && setMainCarousel(prod.sort().slice(15, 20));
     console.log("Random number", random1);
     console.log("Random plus 5", random2);
-  }, [dispatch]);
+  }, [dispatch, prod, random1]);
 
   useEffect(() => {
     const interval = setInterval(() => {
