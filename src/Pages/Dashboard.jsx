@@ -33,7 +33,7 @@ const Dashboard = () => {
     prod && setMainCarousel(prod.sort().slice(random1, random2));
     console.log("Random number", random1);
     console.log("Random plus 5", random2);
-  }, [dispatch, prod, random1, random2, mainCarousel.length]);
+  }, [dispatch]);
 
   useEffect(() => {
     const interval = setInterval(() => {

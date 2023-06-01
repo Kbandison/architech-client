@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts, reset } from "../features/products/productSlice";
 import {
@@ -25,6 +25,9 @@ const Products = () => {
   const { user } = useSelector((state) => state.auth);
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
+
+  const [cartModal, setCartModal] = useState(false);
+  const [wishModal, setWishModal] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(10);
@@ -107,7 +110,7 @@ const Products = () => {
           break;
       }
     }
-  }, [products, search, prod]);
+  }, [products, search]);
 
   const handleSearch = (e) => {
     const search = e.target.value;
@@ -140,7 +143,7 @@ const Products = () => {
     await dispatch(getWishlist());
   };
 
-  const handleAddWish = async (sku) => {
+  const handleAddFavorite = async (sku) => {
     await dispatch(addToWishlist(sku));
     await dispatch(getWishlist());
   };
@@ -198,9 +201,15 @@ const Products = () => {
                   ) : (
                     <MdOutlineFavoriteBorder
                       className="scale-[180%] cursor-pointer absolute right-10 ease-in-out duration-500"
-                      onClick={() =>
+                      onClick={
                         user
-                          ? handleAddWish(product.sku)
+                          ? async () => {
+                              if (isLoading) {
+                                return <Spinner />;
+                              }
+                              await dispatch(addToWishlist(product.sku));
+                              await dispatch(getWishlist());
+                            }
                           : () => navigate("/login")
                       }
                     />
@@ -305,9 +314,12 @@ const Products = () => {
                       {findCart(product.sku) ? (
                         <button
                           className="button w-54 flex gap-2 items-center text-lg"
-                          onClick={() =>
+                          onClick={
                             user
-                              ? handleRemoveCart(product.sku)
+                              ? async () => {
+                                  await dispatch(clearItem(product.sku));
+                                  await dispatch(getUserCart());
+                                }
                               : () => navigate("/login")
                           }
                         >
@@ -317,9 +329,12 @@ const Products = () => {
                       ) : (
                         <button
                           className="button w-54 flex gap-2 items-center text-lg"
-                          onClick={() =>
+                          onClick={
                             user
-                              ? handleAddCart(product.sku)
+                              ? async () => {
+                                  await dispatch(addToCart(product.sku));
+                                  await dispatch(getUserCart());
+                                }
                               : () => navigate("/login")
                           }
                         >

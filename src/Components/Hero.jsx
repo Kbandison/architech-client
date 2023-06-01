@@ -14,13 +14,14 @@ const Hero = () => {
             Affordable Prices for{" "}
             <span className="text-[#E4FDE1] underline decoration-solid decoration-[#DE3C4B]">
               <Typed
-                strings={["Samsung", "Sunbrite.", "Insignia."]}
+                strings={["Samsung", "SunBrite", "Insignia"]}
                 typedSpeed={180}
                 backSpeed={180}
                 loop
                 className="md:text-5xl sm:4xl text-xl font-bold "
               />
-            </span>
+            </span>{" "}
+            TV's.
           </p>
         </div>
         <p className="md:text-2xl text-xl font-bold pt-12">
@@ -28,7 +29,7 @@ const Hero = () => {
         </p>
         <Link to="/products">
           <button className="mt-8 mx-auto py-4 px-10 rounded-lg border font-bold md:text-2xl sm:text-xl text-md text-[#E4FDE1] border-[#DE3C4B]">
-            VIEW ALL PRODUCTS
+            VIEW ALL TV's
           </button>
         </Link>
       </div>
